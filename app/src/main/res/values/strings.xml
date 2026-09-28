@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CampusShare</string>
+    <string name="tagline">Cho tặng và trao đổi đồ dùng trong cộng đồng sinh viên</string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_search">Tìm kiếm</string>
+    <string name="nav_post">Đăng tin</string>
+    <string name="nav_requests">Yêu cầu</string>
+    <string name="nav_profile">Cá nhân</string>
+    <string name="home_description">Khung danh sách bài đăng. Trọng sẽ phát triển phần này.</string>
+    <string name="search_description">Khung tìm kiếm và lọc bài đăng. Trọng sẽ phát triển phần này.</string>
+    <string name="post_description">Khung tạo bài đăng. Trọng sẽ phát triển phần này.</string>
+    <string name="requests_description">Khung yêu cầu nhận đồ. Thắng sẽ phát triển phần này.</string>
+    <string name="profile_description">Khung tài khoản và hồ sơ. Quang sẽ phát triển phần này.</string>
+</resources>
