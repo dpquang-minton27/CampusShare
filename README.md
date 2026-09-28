@@ -24,16 +24,21 @@ Nếu Gradle Sync lỗi, kiểm tra **Settings → Build, Execution, Deployment 
 - Nhóm dự kiến luồng `UI → ViewModel → Repository → Data Source`. Model chung dự kiến: `User`, `Post`, `Category`, `Favorite`, `Request`. Thống nhất data contract và chọn Firebase/Room trước khi thêm dependency; BC1 chỉ cần Android SDK.
 - Cấu hình: AGP 8.13.2, Gradle 8.13, Kotlin 2.2.20, compile SDK 36, min SDK 26, JDK 17.
 
-## Phân công và nhánh Git
+## Phân công và quy tắc Git
 
-| Thành viên | Phần code | Nhánh |
-| --- | --- | --- |
-| Dương Phước Quang | Data, đăng nhập, hồ sơ | `feature/auth-data` |
-| Nguyễn Vương Trọng | Bài đăng, tìm kiếm | `feature/post-search` |
-| Nguyễn Tấn Thắng | Chi tiết, yêu thích, yêu cầu | `feature/detail-request` |
+Repository chỉ dùng hai nhánh:
 
-`main` giữ bản chạy ổn định; `develop` nhận pull request đã review. Từng người bắt đầu từ `develop`, làm trên nhánh của mình, commit theo phần việc và mở pull request về `develop`. Người khác review, kiểm tra Gradle Sync/chạy app trước khi merge. Khi bản tích hợp chạy ổn định, mới merge `develop` vào `main`.
+- `main`: bản nhóm đã kiểm tra và có thể trình bày.
+- `develop`: nơi ba thành viên cùng đưa code và tích hợp trong quá trình làm.
 
-Nếu nhánh chức năng chưa tồn tại, tạo từ `develop` với `git switch -c feature/auth-data` (thay tên nhánh theo bảng), rồi `git push -u origin feature/auth-data`. Trước khi bắt đầu công việc mới, cập nhật `develop` bằng `git pull`. Không commit `local.properties`, keystore, token hoặc `google-services.json`.
+| Thành viên | Phần code |
+| --- | --- |
+| Dương Phước Quang | Data, đăng nhập, hồ sơ |
+| Nguyễn Vương Trọng | Bài đăng, tìm kiếm |
+| Nguyễn Tấn Thắng | Chi tiết, yêu thích, yêu cầu |
+
+Mỗi thành viên clone repository và chuyển sang `develop` bằng `git switch develop`. Trước khi sửa code, dùng `git pull origin develop` để lấy thay đổi mới nhất. Trao đổi trong nhóm để tránh hai người sửa cùng một file; nếu cần sửa file chung thì thống nhất người phụ trách trước. Làm xong phần việc, kiểm tra app, `git add` đúng các file đã sửa, `git commit -m "Mô tả thay đổi"` và `git push origin develop`. Nếu bị từ chối push do nhánh đã thay đổi, `git pull --rebase origin develop`, xử lý xung đột rồi push lại; không dùng force push.
+
+Sau khi nhóm kiểm tra bản tích hợp trên emulator, đưa `develop` vào `main` qua pull request để mọi người xem lại. Không commit `local.properties`, keystore, token hoặc `google-services.json`.
 
 **BC1 hoàn tất sau khi Quang chạy app trên emulator và Trọng, Thắng clone + chạy lại được.**
