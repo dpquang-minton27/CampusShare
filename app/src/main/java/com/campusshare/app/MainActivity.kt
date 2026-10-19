@@ -1,21 +1,27 @@
 package com.campusshare.app
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.campusshare.app.data.CampusShareData
+import com.campusshare.app.ui.auth.AuthActivity
+import com.campusshare.app.ui.auth.ProfileActivity
 
 /**
  * Khung điều hướng BC1. Các màn hình nghiệp vụ sẽ thay thế nội dung mẫu
  * khi từng nhánh chức năng được tích hợp vào develop.
  */
 class MainActivity : Activity() {
+    private var stopObserving: (() -> Unit)? = null
     private lateinit var sectionTitle: TextView
     private lateinit var sectionDescription: TextView
     private lateinit var navigationButtons: List<Button>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (CampusShareData.authRepository.currentUser == null) { openLogin(); return }
         setContentView(R.layout.activity_main)
 
         sectionTitle = findViewById(R.id.sectionTitle)
@@ -34,7 +40,34 @@ class MainActivity : Activity() {
         showSection(Section.HOME)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isFinishing) return
+        if (CampusShareData.authRepository.currentUser == null) { openLogin(); return }
+        stopObserving?.invoke()
+        stopObserving = CampusShareData.authRepository.observeAuthState {
+            val user = CampusShareData.authRepository.currentUser
+            if (user == null) openLogin()
+            else findViewById<TextView>(R.id.sessionUser).text = getString(R.string.signed_in_as, user.fullName)
+        }
+    }
+
+    override fun onPause() {
+        stopObserving?.invoke()
+        stopObserving = null
+        super.onPause()
+    }
+
+    private fun openLogin() {
+        startActivity(Intent(this, AuthActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        finish()
+    }
+
     private fun showSection(section: Section) {
+        if (section == Section.PROFILE) {
+            startActivity(Intent(this, ProfileActivity::class.java))
+            return
+        }
         sectionTitle.setText(section.titleRes)
         sectionDescription.setText(section.descriptionRes)
         navigationButtons.forEachIndexed { index, button ->

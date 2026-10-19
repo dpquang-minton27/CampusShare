@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_title">Đăng nhập</string>
+    <string name="register_title">Tạo tài khoản</string>
+    <string name="auth_intro">Chào bạn! Đăng nhập để cùng chia sẻ đồ dùng với sinh viên.</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu (ít nhất 6 ký tự khi đăng ký)</string>
+    <string name="confirm_password">Nhập lại mật khẩu</string>
+    <string name="switch_login">Đã có tài khoản? Đăng nhập</string>
+    <string name="switch_register">Chưa có tài khoản? Đăng ký</string>
+    <string name="password_mismatch">Hai mật khẩu chưa trùng nhau.</string>
+    <string name="auth_failed">Chưa thực hiện được. Vui lòng thử lại.</string>
+    <string name="loading">Đang xử lý</string>
+    <string name="demo_accounts">BẢN DEMO BC2 — Chỉ dùng thông tin thử nghiệm.\nTài khoản mẫu: an@sv.example.edu, binh@sv.example.edu hoặc chi@sv.example.edu\nMật khẩu chung: Campus123\nTài khoản mới và phiên đăng nhập chỉ giữ trong bộ nhớ; đóng hẳn tiến trình ứng dụng sẽ đặt lại dữ liệu.</string>
+    <string name="profile_title">Hồ sơ cá nhân</string>
+    <string name="profile_intro">Bạn có thể cập nhật tên hiển thị. Email của tài khoản demo được giữ nguyên.</string>
+    <string name="user_id">Mã người dùng: %1$s</string>
+    <string name="save_profile">Lưu thay đổi</string>
+    <string name="profile_saved">Đã lưu hồ sơ.</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="back_home">Về trang chủ</string>
+    <string name="signed_in_as">Xin chào, %1$s</string>
+</resources>

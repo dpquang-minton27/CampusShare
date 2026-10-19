@@ -25,4 +25,8 @@ android {
     }
 }
 
-// BC1 chỉ dùng Android SDK. Thêm Firebase/Room và thư viện UI sau khi chốt data contract.
+dependencies {
+    testImplementation("junit:junit:4.13.2")
+}
+
+// BC2 uses the Android SDK and a local mock. Choose a production backend at BC3.
