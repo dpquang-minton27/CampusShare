@@ -9,23 +9,27 @@ import com.campusshare.app.data.CampusShareData
 import com.campusshare.app.ui.auth.AuthActivity
 import com.campusshare.app.ui.auth.ProfileActivity
 
-/**
- * Khung điều hướng BC1. Các màn hình nghiệp vụ sẽ thay thế nội dung mẫu
- * khi từng nhánh chức năng được tích hợp vào develop.
- */
 class MainActivity : Activity() {
+
     private var stopObserving: (() -> Unit)? = null
+
     private lateinit var sectionTitle: TextView
     private lateinit var sectionDescription: TextView
     private lateinit var navigationButtons: List<Button>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (CampusShareData.authRepository.currentUser == null) { openLogin(); return }
+
+        if (CampusShareData.authRepository.currentUser == null) {
+            openLogin()
+            return
+        }
+
         setContentView(R.layout.activity_main)
 
         sectionTitle = findViewById(R.id.sectionTitle)
         sectionDescription = findViewById(R.id.sectionDescription)
+
         navigationButtons = listOf(
             findViewById(R.id.navHome),
             findViewById(R.id.navSearch),
@@ -35,51 +39,100 @@ class MainActivity : Activity() {
         )
 
         Section.entries.forEachIndexed { index, section ->
-            navigationButtons[index].setOnClickListener { showSection(section) }
+            navigationButtons[index].setOnClickListener {
+                showSection(section)
+            }
         }
+
         showSection(Section.HOME)
     }
 
     override fun onResume() {
         super.onResume()
+
         if (isFinishing) return
-        if (CampusShareData.authRepository.currentUser == null) { openLogin(); return }
-        stopObserving?.invoke()
-        stopObserving = CampusShareData.authRepository.observeAuthState {
-            val user = CampusShareData.authRepository.currentUser
-            if (user == null) openLogin()
-            else findViewById<TextView>(R.id.sessionUser).text = getString(R.string.signed_in_as, user.fullName)
+
+        if (CampusShareData.authRepository.currentUser == null) {
+            openLogin()
+            return
         }
+
+        stopObserving?.invoke()
+
+        stopObserving =
+            CampusShareData.authRepository.observeAuthState {
+                val user = CampusShareData.authRepository.currentUser
+
+                if (user == null) {
+                    openLogin()
+                } else {
+                    findViewById<TextView>(R.id.sessionUser).text =
+                        getString(
+                            R.string.signed_in_as,
+                            user.fullName
+                        )
+                }
+            }
     }
 
     override fun onPause() {
         stopObserving?.invoke()
         stopObserving = null
+
         super.onPause()
     }
 
     private fun openLogin() {
-        startActivity(Intent(this, AuthActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        val intent = Intent(this, AuthActivity::class.java).apply {
+            addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+            )
+        }
+
+        startActivity(intent)
         finish()
     }
 
     private fun showSection(section: Section) {
         if (section == Section.PROFILE) {
-            startActivity(Intent(this, ProfileActivity::class.java))
+            startActivity(
+                Intent(this, ProfileActivity::class.java)
+            )
             return
         }
+
         sectionTitle.setText(section.titleRes)
         sectionDescription.setText(section.descriptionRes)
+
         navigationButtons.forEachIndexed { index, button ->
             button.isEnabled = Section.entries[index] != section
         }
     }
 
-    private enum class Section(val titleRes: Int, val descriptionRes: Int) {
-        HOME(R.string.nav_home, R.string.home_description),
-        SEARCH(R.string.nav_search, R.string.search_description),
-        POST(R.string.nav_post, R.string.post_description),
-        REQUESTS(R.string.nav_requests, R.string.requests_description),
-        PROFILE(R.string.nav_profile, R.string.profile_description)
+    private enum class Section(
+        val titleRes: Int,
+        val descriptionRes: Int
+    ) {
+        HOME(
+            R.string.nav_home,
+            R.string.home_description
+        ),
+        SEARCH(
+            R.string.nav_search,
+            R.string.search_description
+        ),
+        POST(
+            R.string.nav_post,
+            R.string.post_description
+        ),
+        REQUESTS(
+            R.string.nav_requests,
+            R.string.requests_description
+        ),
+        PROFILE(
+            R.string.nav_profile,
+            R.string.profile_description
+        )
     }
 }
