@@ -15,6 +15,10 @@ android {
         versionName = "0.1.0"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -30,3 +34,4 @@ dependencies {
 }
 
 // BC2 uses the Android SDK and a local mock. Choose a production backend at BC3.
+

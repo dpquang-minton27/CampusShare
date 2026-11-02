@@ -6,12 +6,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
 import com.campusshare.app.MainActivity
 import com.campusshare.app.R
+import com.campusshare.app.databinding.ActivityAuthBinding
 import com.campusshare.app.data.CampusShareData
 
 class AuthActivity : Activity() {
@@ -19,55 +16,41 @@ class AuthActivity : Activity() {
     private val handler = Handler(Looper.getMainLooper())
     private var registering = false
     private var busy = false
-    private lateinit var name: EditText
-    private lateinit var email: EditText
-    private lateinit var password: EditText
-    private lateinit var confirmation: EditText
-    private lateinit var submit: Button
-    private lateinit var switchMode: Button
-    private lateinit var error: TextView
-    private lateinit var progress: ProgressBar
+    private lateinit var binding: ActivityAuthBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (repository.currentUser != null) { openHome(); return }
-        setContentView(R.layout.activity_auth)
+        binding = ActivityAuthBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         registering = savedInstanceState?.getBoolean("registering") ?: false
-        name = findViewById(R.id.authName)
-        email = findViewById(R.id.authEmail)
-        password = findViewById(R.id.authPassword)
-        confirmation = findViewById(R.id.authConfirmation)
-        submit = findViewById(R.id.authSubmit)
-        switchMode = findViewById(R.id.authSwitch)
-        error = findViewById(R.id.authError)
-        progress = findViewById(R.id.authProgress)
         renderMode()
-        switchMode.setOnClickListener {
+        binding.authSwitch.setOnClickListener {
             registering = !registering
-            error.visibility = View.GONE
-            confirmation.text.clear()
+            binding.authError.visibility = View.GONE
+            binding.authConfirmation.text.clear()
             renderMode()
         }
-        submit.setOnClickListener { submitForm() }
+        binding.authSubmit.setOnClickListener { submitForm() }
     }
 
     private fun renderMode() {
-        findViewById<TextView>(R.id.authTitle).setText(if (registering) R.string.register_title else R.string.login_title)
-        name.visibility = if (registering) View.VISIBLE else View.GONE
-        confirmation.visibility = if (registering) View.VISIBLE else View.GONE
-        submit.setText(if (registering) R.string.register_title else R.string.login_title)
-        switchMode.setText(if (registering) R.string.switch_login else R.string.switch_register)
+        binding.authTitle.setText(if (registering) R.string.register_title else R.string.login_title)
+        binding.authName.visibility = if (registering) View.VISIBLE else View.GONE
+        binding.authConfirmation.visibility = if (registering) View.VISIBLE else View.GONE
+        binding.authSubmit.setText(if (registering) R.string.register_title else R.string.login_title)
+        binding.authSwitch.setText(if (registering) R.string.switch_login else R.string.switch_register)
     }
 
     private fun submitForm() {
         if (busy) return
-        error.visibility = View.GONE
-        if (registering && password.text.toString() != confirmation.text.toString()) {
+        binding.authError.visibility = View.GONE
+        if (registering && binding.authPassword.text.toString() != binding.authConfirmation.text.toString()) {
             showError(getString(R.string.password_mismatch)); return
         }
-        val fullName = name.text.toString()
-        val mail = email.text.toString()
-        val secret = password.text.toString()
+        val fullName = binding.authName.text.toString()
+        val mail = binding.authEmail.text.toString()
+        val secret = binding.authPassword.text.toString()
         val register = registering
         setBusy(true)
         // Queue one UI-thread operation so the loading state is rendered. Fake calls are local/fast.
@@ -83,13 +66,13 @@ class AuthActivity : Activity() {
 
     private fun setBusy(value: Boolean) {
         busy = value
-        listOf(name, email, password, confirmation, submit, switchMode).forEach { it.isEnabled = !value }
-        progress.visibility = if (value) View.VISIBLE else View.GONE
+        listOf(binding.authName, binding.authEmail, binding.authPassword, binding.authConfirmation, binding.authSubmit, binding.authSwitch).forEach { it.isEnabled = !value }
+        binding.authProgress.visibility = if (value) View.VISIBLE else View.GONE
     }
 
     private fun showError(message: String) {
-        error.text = message
-        error.visibility = View.VISIBLE
+        binding.authError.text = message
+        binding.authError.visibility = View.VISIBLE
     }
 
     private fun openHome() {
@@ -107,3 +90,4 @@ class AuthActivity : Activity() {
         super.onDestroy()
     }
 }
+

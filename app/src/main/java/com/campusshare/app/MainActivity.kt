@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import com.campusshare.app.databinding.ActivityMainBinding
 import com.campusshare.app.data.CampusShareData
 import com.campusshare.app.ui.auth.AuthActivity
 import com.campusshare.app.ui.auth.ProfileActivity
@@ -13,8 +13,7 @@ class MainActivity : Activity() {
 
     private var stopObserving: (() -> Unit)? = null
 
-    private lateinit var sectionTitle: TextView
-    private lateinit var sectionDescription: TextView
+    private lateinit var binding: ActivityMainBinding
     private lateinit var navigationButtons: List<Button>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,17 +24,15 @@ class MainActivity : Activity() {
             return
         }
 
-        setContentView(R.layout.activity_main)
-
-        sectionTitle = findViewById(R.id.sectionTitle)
-        sectionDescription = findViewById(R.id.sectionDescription)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         navigationButtons = listOf(
-            findViewById(R.id.navHome),
-            findViewById(R.id.navSearch),
-            findViewById(R.id.navPost),
-            findViewById(R.id.navRequests),
-            findViewById(R.id.navProfile)
+            binding.navHome,
+            binding.navSearch,
+            binding.navPost,
+            binding.navRequests,
+            binding.navProfile
         )
 
         Section.entries.forEachIndexed { index, section ->
@@ -66,7 +63,7 @@ class MainActivity : Activity() {
                 if (user == null) {
                     openLogin()
                 } else {
-                    findViewById<TextView>(R.id.sessionUser).text =
+                    binding.sessionUser.text =
                         getString(
                             R.string.signed_in_as,
                             user.fullName
@@ -102,8 +99,8 @@ class MainActivity : Activity() {
             return
         }
 
-        sectionTitle.setText(section.titleRes)
-        sectionDescription.setText(section.descriptionRes)
+        binding.sectionTitle.setText(section.titleRes)
+        binding.sectionDescription.setText(section.descriptionRes)
 
         navigationButtons.forEachIndexed { index, button ->
             button.isEnabled = Section.entries[index] != section
