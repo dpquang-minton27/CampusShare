@@ -1,0 +1,324 @@
+{
+  "schemaVersion": 2,
+  "warning": "SYNTHETIC TEST FIXTURES. Never import into a real production project.",
+  "users": [
+    {
+      "id": "u1",
+      "fullName": "Nguyễn An",
+      "avatarUrl": null,
+      "createdAt": "2026-11-01T09:00:00Z",
+      "updatedAt": "2026-11-01T09:00:00Z"
+    },
+    {
+      "id": "u2",
+      "fullName": "Trần Bình",
+      "avatarUrl": null,
+      "createdAt": "2026-11-01T09:00:00Z",
+      "updatedAt": "2026-11-01T09:00:00Z"
+    },
+    {
+      "id": "u3",
+      "fullName": "Lê Chi",
+      "avatarUrl": null,
+      "createdAt": "2026-11-01T09:00:00Z",
+      "updatedAt": "2026-11-01T09:00:00Z"
+    }
+  ],
+  "userContacts": [
+    {
+      "id": "u1",
+      "email": "an@sv.example.edu",
+      "phone": null,
+      "zaloUrl": null,
+      "updatedAt": "2026-11-01T09:00:00Z"
+    },
+    {
+      "id": "u2",
+      "email": "binh@sv.example.edu",
+      "phone": null,
+      "zaloUrl": null,
+      "updatedAt": "2026-11-01T09:00:00Z"
+    },
+    {
+      "id": "u3",
+      "email": "chi@sv.example.edu",
+      "phone": null,
+      "zaloUrl": null,
+      "updatedAt": "2026-11-01T09:00:00Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "books",
+      "name": "Sách và giáo trình",
+      "iconKey": "menu_book",
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "study",
+      "name": "Đồ dùng học tập",
+      "iconKey": "school",
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "dorm",
+      "name": "Đồ ký túc xá",
+      "iconKey": "home",
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "electronics",
+      "name": "Thiết bị điện tử",
+      "iconKey": "devices",
+      "sortOrder": 4,
+      "active": true
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-1",
+      "ownerId": "u1",
+      "categoryId": "books",
+      "title": "Giáo trình Giải tích 1",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "GIVE_AWAY",
+      "status": "AVAILABLE",
+      "imageUrls": [],
+      "conditionPercent": 75,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": null,
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T09:00:00Z",
+      "updatedAt": "2026-11-01T09:00:00Z"
+    },
+    {
+      "id": "post-2",
+      "ownerId": "u2",
+      "categoryId": "books",
+      "title": "Sách nhập môn Kotlin",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "EXCHANGE",
+      "status": "AVAILABLE",
+      "imageUrls": [],
+      "conditionPercent": 80,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": "Trao đổi đồ dùng học tập",
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T09:10:00Z",
+      "updatedAt": "2026-11-01T09:10:00Z"
+    },
+    {
+      "id": "post-3",
+      "ownerId": "u3",
+      "categoryId": "study",
+      "title": "Máy tính Casio",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "EXCHANGE",
+      "status": "AVAILABLE",
+      "imageUrls": [],
+      "conditionPercent": 85,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": "Trao đổi đồ dùng học tập",
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T09:20:00Z",
+      "updatedAt": "2026-11-01T09:20:00Z"
+    },
+    {
+      "id": "post-4",
+      "ownerId": "u1",
+      "categoryId": "study",
+      "title": "Bộ thước kỹ thuật",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "GIVE_AWAY",
+      "status": "AVAILABLE",
+      "imageUrls": [],
+      "conditionPercent": 90,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": null,
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T09:30:00Z",
+      "updatedAt": "2026-11-01T09:30:00Z"
+    },
+    {
+      "id": "post-5",
+      "ownerId": "u2",
+      "categoryId": "dorm",
+      "title": "Đèn bàn học",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "GIVE_AWAY",
+      "status": "TAKEN",
+      "imageUrls": [],
+      "conditionPercent": 95,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": null,
+      "acceptedRequestId": "post-5__u1",
+      "createdAt": "2026-11-01T09:40:00Z",
+      "updatedAt": "2026-11-01T09:40:00Z"
+    },
+    {
+      "id": "post-6",
+      "ownerId": "u3",
+      "categoryId": "dorm",
+      "title": "Kệ sách nhỏ",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "EXCHANGE",
+      "status": "EXCHANGED",
+      "imageUrls": [],
+      "conditionPercent": 75,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": "Trao đổi đồ dùng học tập",
+      "acceptedRequestId": "post-6__u2",
+      "createdAt": "2026-11-01T09:50:00Z",
+      "updatedAt": "2026-11-01T09:50:00Z"
+    },
+    {
+      "id": "post-7",
+      "ownerId": "u1",
+      "categoryId": "electronics",
+      "title": "Tai nghe có dây",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "GIVE_AWAY",
+      "status": "AVAILABLE",
+      "imageUrls": [],
+      "conditionPercent": 80,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": null,
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T10:00:00Z",
+      "updatedAt": "2026-11-01T10:00:00Z"
+    },
+    {
+      "id": "post-8",
+      "ownerId": "u2",
+      "categoryId": "electronics",
+      "title": "Chuột máy tính",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "EXCHANGE",
+      "status": "AVAILABLE",
+      "imageUrls": [],
+      "conditionPercent": 85,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": "Trao đổi đồ dùng học tập",
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T10:10:00Z",
+      "updatedAt": "2026-11-01T10:10:00Z"
+    },
+    {
+      "id": "post-9",
+      "ownerId": "u3",
+      "categoryId": "books",
+      "title": "Giáo trình Tiếng Anh",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "GIVE_AWAY",
+      "status": "AVAILABLE",
+      "imageUrls": [],
+      "conditionPercent": 90,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": null,
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T10:20:00Z",
+      "updatedAt": "2026-11-01T10:20:00Z"
+    },
+    {
+      "id": "post-10",
+      "ownerId": "u1",
+      "categoryId": "dorm",
+      "title": "Quạt để bàn",
+      "description": "Đồ dùng sinh viên còn sử dụng tốt, ưu tiên gặp ở thư viện.",
+      "type": "GIVE_AWAY",
+      "status": "HIDDEN",
+      "imageUrls": [],
+      "conditionPercent": 95,
+      "meetingLocation": "Thư viện trường",
+      "exchangeNote": null,
+      "acceptedRequestId": null,
+      "createdAt": "2026-11-01T10:30:00Z",
+      "updatedAt": "2026-11-01T10:30:00Z"
+    }
+  ],
+  "requests": [
+    {
+      "id": "post-1__u2",
+      "postId": "post-1",
+      "ownerId": "u1",
+      "requesterId": "u2",
+      "message": "Em đang cần giáo trình giải tích.",
+      "status": "PENDING",
+      "createdAt": "2026-11-01T14:00:00Z",
+      "updatedAt": "2026-11-01T14:00:00Z"
+    },
+    {
+      "id": "post-1__u3",
+      "postId": "post-1",
+      "ownerId": "u1",
+      "requesterId": "u3",
+      "message": "Em xin đăng ký nhận tài liệu.",
+      "status": "PENDING",
+      "createdAt": "2026-11-01T14:10:00Z",
+      "updatedAt": "2026-11-01T14:10:00Z"
+    },
+    {
+      "id": "post-2__u1",
+      "postId": "post-2",
+      "ownerId": "u2",
+      "requesterId": "u1",
+      "message": "Em muốn đổi sách nhập môn.",
+      "status": "CANCELLED",
+      "createdAt": "2026-11-01T14:20:00Z",
+      "updatedAt": "2026-11-01T14:20:00Z"
+    },
+    {
+      "id": "post-5__u1",
+      "postId": "post-5",
+      "ownerId": "u2",
+      "requesterId": "u1",
+      "message": "Em cần đèn để học buổi tối.",
+      "status": "ACCEPTED",
+      "createdAt": "2026-11-01T14:30:00Z",
+      "updatedAt": "2026-11-01T14:30:00Z"
+    },
+    {
+      "id": "post-5__u3",
+      "postId": "post-5",
+      "ownerId": "u2",
+      "requesterId": "u3",
+      "message": "Cho em xin chiếc đèn ạ.",
+      "status": "REJECTED",
+      "createdAt": "2026-11-01T14:40:00Z",
+      "updatedAt": "2026-11-01T14:40:00Z"
+    },
+    {
+      "id": "post-6__u2",
+      "postId": "post-6",
+      "ownerId": "u3",
+      "requesterId": "u2",
+      "message": "Em có sách muốn trao đổi.",
+      "status": "ACCEPTED",
+      "createdAt": "2026-11-01T14:50:00Z",
+      "updatedAt": "2026-11-01T14:50:00Z"
+    }
+  ],
+  "favorites": [
+    {
+      "id": "u1__post-2",
+      "userId": "u1",
+      "postId": "post-2",
+      "createdAt": "2026-11-01T17:20:00Z"
+    },
+    {
+      "id": "u2__post-1",
+      "userId": "u2",
+      "postId": "post-1",
+      "createdAt": "2026-11-01T17:30:00Z"
+    },
+    {
+      "id": "u3__post-3",
+      "userId": "u3",
+      "postId": "post-3",
+      "createdAt": "2026-11-01T17:40:00Z"
+    }
+  ]
+}

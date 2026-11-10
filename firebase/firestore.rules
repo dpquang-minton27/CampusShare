@@ -1,0 +1,221 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function isMe(uid) { return signedIn() && request.auth.uid == uid; }
+    function postPath(postId) { return /databases/$(database)/documents/posts/$(postId); }
+    function reqPath(requestId) { return /databases/$(database)/documents/requests/$(requestId); }
+    function ownerOf(postId) {
+      return exists(postPath(postId)) && get(postPath(postId)).data.ownerId == request.auth.uid;
+    }
+    function validName(name) { return name is string && name.size() >= 2 && name.size() <= 80; }
+    function validNullableString(value, limit) {
+      return value == null || (value is string && value.size() <= limit);
+    }
+    function publicUserKeys() {
+      return ['id', 'fullName', 'avatarUrl', 'createdAt', 'updatedAt'];
+    }
+    function validPublicUser(uid, data) {
+      return data.keys().hasAll(publicUserKeys()) && data.keys().hasOnly(publicUserKeys())
+        && data.id == uid && validName(data.fullName)
+        && validNullableString(data.avatarUrl, 600)
+        && data.createdAt is timestamp && data.updatedAt is timestamp;
+    }
+    function validContact(data) {
+      return data.keys().hasOnly(['email', 'phone', 'zaloUrl', 'updatedAt'])
+        && data.keys().hasAll(['email', 'phone', 'zaloUrl', 'updatedAt'])
+        && validNullableString(data.email, 254)
+        && validNullableString(data.phone, 20)
+        && validNullableString(data.zaloUrl, 200)
+        && data.updatedAt is timestamp;
+    }
+    function postKeys() {
+      return ['ownerId','categoryId','title','description','type','status',
+        'imageUrls','conditionPercent','meetingLocation','exchangeNote',
+        'acceptedRequestId','createdAt','updatedAt'];
+    }
+    function validPost(data) {
+      return data.keys().hasAll(postKeys()) && data.keys().hasOnly(postKeys())
+        && data.ownerId is string && data.categoryId is string
+        && data.title is string && data.title.size() >= 3 && data.title.size() <= 100
+        && data.description is string && data.description.size() >= 5 && data.description.size() <= 2000
+        && data.type in ['GIVE_AWAY','EXCHANGE']
+        && data.status in ['AVAILABLE','TAKEN','EXCHANGED','HIDDEN']
+        && data.imageUrls is list && data.imageUrls.size() <= 3
+        && data.conditionPercent is int && data.conditionPercent >= 0 && data.conditionPercent <= 100
+        && data.meetingLocation is string && data.meetingLocation.size() >= 2 && data.meetingLocation.size() <= 200
+        && validNullableString(data.exchangeNote, 300)
+        && (data.type != 'EXCHANGE' || (data.exchangeNote is string && data.exchangeNote.size() >= 1))
+        && validNullableString(data.acceptedRequestId, 150)
+        && data.createdAt is timestamp && data.updatedAt is timestamp;
+    }
+    function postEditOnly() {
+      return exists(/databases/$(database)/documents/categories/$(request.resource.data.categoryId))
+        && get(/databases/$(database)/documents/categories/$(request.resource.data.categoryId)).data.active == true
+        && resource.data.status == 'AVAILABLE'
+        && request.resource.data.status == 'AVAILABLE'
+        && request.resource.data.acceptedRequestId == null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'categoryId','title','description','type','imageUrls',
+          'conditionPercent','meetingLocation','exchangeNote','updatedAt'
+        ]);
+    }
+    function postHideOnly() {
+      return resource.data.status == 'AVAILABLE'
+        && request.resource.data.status == 'HIDDEN'
+        && request.resource.data.acceptedRequestId == null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt']);
+    }
+    function postAcceptance(postId) {
+      let requestId = request.resource.data.acceptedRequestId;
+      return verified() && resource.data.status == 'AVAILABLE'
+        && resource.data.acceptedRequestId == null
+        && requestId is string && requestId.size() >= 1
+        && request.resource.data.status == (resource.data.type == 'GIVE_AWAY' ? 'TAKEN' : 'EXCHANGED')
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'status','acceptedRequestId','updatedAt'
+        ])
+        && exists(reqPath(requestId))
+        && get(reqPath(requestId)).data.status == 'PENDING'
+        && getAfter(reqPath(requestId)).data.status == 'ACCEPTED'
+        && getAfter(reqPath(requestId)).data.postId == postId
+        && getAfter(reqPath(requestId)).data.ownerId == request.auth.uid;
+    }
+    function validRequest(data) {
+      return data.keys().hasOnly([
+          'postId','ownerId','requesterId','message','status','createdAt','updatedAt'
+        ]) && data.keys().hasAll([
+          'postId','ownerId','requesterId','message','status','createdAt','updatedAt'
+        ])
+        && data.postId is string && data.ownerId is string && data.requesterId is string
+        && data.message is string && data.message.size() >= 1 && data.message.size() <= 200
+        && data.status in ['PENDING','ACCEPTED','REJECTED','CANCELLED']
+        && data.createdAt is timestamp && data.updatedAt is timestamp;
+    }
+    function reqStatusOnly() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt']);
+    }
+    function requestAcceptance(requestId) {
+      let postId = resource.data.postId;
+      return verified() && request.auth.uid == resource.data.ownerId
+        && resource.data.status == 'PENDING'
+        && request.resource.data.status == 'ACCEPTED'
+        && exists(postPath(postId))
+        && get(postPath(postId)).data.status == 'AVAILABLE'
+        && get(postPath(postId)).data.ownerId == request.auth.uid
+        && getAfter(postPath(postId)).data.acceptedRequestId == requestId
+        && getAfter(postPath(postId)).data.status ==
+          (get(postPath(postId)).data.type == 'GIVE_AWAY' ? 'TAKEN' : 'EXCHANGED');
+    }
+
+    // Public display profile contains no phone, Zalo or email.
+    match /users/{uid} {
+      allow get, list: if signedIn();
+      allow create: if isMe(uid) && validPublicUser(uid, request.resource.data);
+      allow update: if isMe(uid) && validPublicUser(uid, request.resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'fullName','avatarUrl','updatedAt'
+        ]);
+      allow delete: if false;
+    }
+    match /userContacts/{uid} {
+      allow read: if isMe(uid);
+      allow create: if isMe(uid) && validContact(request.resource.data)
+        && request.resource.data.email == request.auth.token.email;
+      allow update: if isMe(uid) && validContact(request.resource.data)
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['phone','zaloUrl','updatedAt']);
+      allow delete: if false;
+    }
+    match /categories/{categoryId} {
+      allow read: if signedIn();
+      allow write: if false; // seed only using trusted Admin SDK / Firebase Console.
+    }
+    match /posts/{postId} {
+      allow get: if signedIn() && (resource.data.status != 'HIDDEN' || isMe(resource.data.ownerId));
+      allow list: if signedIn() &&
+        (resource.data.status != 'HIDDEN' || resource.data.ownerId == request.auth.uid);
+      // Client query must prove this: status=AVAILABLE or ownerId=auth.uid.
+      allow create: if verified() && validPost(request.resource.data)
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.status == 'AVAILABLE'
+        && request.resource.data.acceptedRequestId == null
+        && exists(/databases/$(database)/documents/categories/$(request.resource.data.categoryId))
+        && get(/databases/$(database)/documents/categories/$(request.resource.data.categoryId)).data.active == true;
+      allow update: if isMe(resource.data.ownerId) && validPost(request.resource.data)
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.createdAt == resource.data.createdAt
+        && (postEditOnly() || postHideOnly() || postAcceptance(postId));
+      allow delete: if false; // soft-hide prevents dangling Request/Favorite references.
+    }
+    match /requests/{requestId} {
+      allow read: if signedIn()
+        && (request.auth.uid == resource.data.requesterId || request.auth.uid == resource.data.ownerId);
+      allow create: if verified() && validRequest(request.resource.data)
+        && request.resource.data.status == 'PENDING'
+        && request.resource.data.requesterId == request.auth.uid
+        && requestId == request.resource.data.postId + '__' + request.auth.uid
+        && exists(postPath(request.resource.data.postId))
+        && get(postPath(request.resource.data.postId)).data.status == 'AVAILABLE'
+        && get(postPath(request.resource.data.postId)).data.ownerId == request.resource.data.ownerId
+        && request.resource.data.ownerId != request.auth.uid;
+      allow update: if signedIn() && validRequest(request.resource.data)
+        && reqStatusOnly()
+        && (
+          (request.auth.uid == resource.data.requesterId
+            && resource.data.status == 'PENDING'
+            && request.resource.data.status == 'CANCELLED')
+          || (request.auth.uid == resource.data.ownerId
+            && resource.data.status == 'PENDING'
+            && request.resource.data.status == 'REJECTED')
+          || requestAcceptance(requestId)
+        );
+      allow delete: if false;
+    }
+    match /favorites/{favoriteId} {
+      allow read: if signedIn() && request.auth.uid == resource.data.userId;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['userId','postId','createdAt'])
+        && request.resource.data.keys().hasAll(['userId','postId','createdAt'])
+        && request.resource.data.userId == request.auth.uid
+        && favoriteId == request.auth.uid + '__' + request.resource.data.postId
+        && request.resource.data.createdAt is timestamp
+        && exists(postPath(request.resource.data.postId));
+      allow update: if false;
+      allow delete: if signedIn() && request.auth.uid == resource.data.userId;
+    }
+    match /contactShares/{shareId} {
+      function acceptedShare(data) {
+        return data.requestId is string && exists(reqPath(data.requestId))
+          && get(reqPath(data.requestId)).data.status == 'ACCEPTED'
+          && (
+            (get(reqPath(data.requestId)).data.ownerId == data.senderId
+              && get(reqPath(data.requestId)).data.requesterId == data.recipientId)
+            || (get(reqPath(data.requestId)).data.requesterId == data.senderId
+              && get(reqPath(data.requestId)).data.ownerId == data.recipientId)
+          );
+      }
+      function validShare(data) {
+        return data.keys().hasOnly(['requestId','senderId','recipientId','phone','zaloUrl','updatedAt'])
+          && data.keys().hasAll(['requestId','senderId','recipientId','phone','zaloUrl','updatedAt'])
+          && data.senderId is string && data.recipientId is string
+          && validNullableString(data.phone, 20) && validNullableString(data.zaloUrl, 200)
+          && data.updatedAt is timestamp;
+      }
+      allow get: if signedIn() && validShare(resource.data)
+        && (request.auth.uid == resource.data.senderId || request.auth.uid == resource.data.recipientId)
+        && acceptedShare(resource.data);
+      allow list: if false;
+      allow create: if verified() && validShare(request.resource.data)
+        && request.resource.data.senderId == request.auth.uid
+        && shareId == request.resource.data.requestId + '__' + request.auth.uid
+        && acceptedShare(request.resource.data);
+      allow update: if verified() && isMe(resource.data.senderId)
+        && validShare(request.resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['phone','zaloUrl','updatedAt'])
+        && acceptedShare(request.resource.data);
+      allow delete: if isMe(resource.data.senderId);
+    }
+  }
+}

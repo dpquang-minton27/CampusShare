@@ -1,6 +1,6 @@
 # CampusShare
 
-Ứng dụng Android Kotlin/XML cho sinh viên cho tặng hoặc trao đổi đồ dùng trong trường. Bản BC2 bổ sung đăng nhập, đăng ký, hồ sơ và session mock vào khung điều hướng BC1. Chưa kết nối backend thật; các màn bài đăng/tương tác vẫn là khung mẫu.
+Ứng dụng Android Kotlin/XML cho sinh viên cho tặng hoặc trao đổi đồ dùng trong trường. Nhánh develop có phần nền BC3 của Quang. Auth/Profile và Data Contract v2 hỗ trợ Mock và Firebase. Điều hướng và các màn bài đăng/tương tác tiếp tục theo phân công của nhóm. Xem [hướng dẫn phần Quang](QUANG-BC3-START-HERE.md).
 
 Tài khoản demo: `an@sv.example.edu`, `binh@sv.example.edu`, `chi@sv.example.edu`; mật khẩu chung `Campus123`. Dữ liệu và session chỉ giữ trong bộ nhớ tiến trình. Xem [hướng dẫn bàn giao và kiểm thử BC2](docs/BC2-auth-handoff.md).
 
@@ -15,7 +15,7 @@ Tài khoản demo: `an@sv.example.edu`, `binh@sv.example.edu`, `chi@sv.example.e
    ```
 3. Trong Android Studio chọn **File → Open**, chọn thư mục `CampusShare` chứa `settings.gradle.kts`, và chờ **Gradle Sync** hoàn tất. Nếu được hỏi SDK, chọn SDK đã cài; Android Studio tự tạo `local.properties` riêng cho máy.
 4. Trong **Device Manager**, tạo một emulator API 26 trở lên (khuyến nghị API 35 hoặc 36), khởi động máy ảo, chọn cấu hình `app` rồi bấm **Run ▶**.
-5. Đăng nhập bằng tài khoản demo hoặc đăng ký một tài khoản thử. Kiểm tra **Trang chủ**, **Tìm kiếm**, **Đăng tin**, **Yêu cầu**, và **Cá nhân**. Mục Cá nhân mở hồ sơ để sửa tên/đăng xuất. Chụp ảnh làm bằng chứng kiểm thử.
+5. Đăng nhập bằng tài khoản demo hoặc đăng ký một tài khoản thử. Kiểm tra **Trang chủ**, **Tìm kiếm**, **Đăng tin**, **Yêu cầu**, và **Cá nhân**. Mục Cá nhân mở hồ sơ để cập nhật thông tin hoặc đăng xuất. Chụp ảnh làm bằng chứng kiểm thử.
 
 Nếu Gradle Sync lỗi, kiểm tra **Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK = 17**, SDK Platform 36 và kết nối Internet. Có thể chạy `./gradlew :app:assembleDebug` trên macOS/Linux hoặc `gradlew.bat :app:assembleDebug` trên Windows sau khi cài SDK/JDK.
 
@@ -23,7 +23,7 @@ Nếu Gradle Sync lỗi, kiểm tra **Settings → Build, Execution, Deployment 
 
 - `app/src/main/java/com/campusshare/app/`: mã Kotlin; `res/layout/`: giao diện XML; `res/values/`: chuỗi, màu, theme.
 - `MainActivity` giữ khung BC1 và kiểm tra session. `ui/auth` có các màn đăng nhập/đăng ký/hồ sơ; `data` có contract và mock auth; `domain/model/User.kt` là model chung. Khi phát triển tiếp đặt các module ở `ui/posts`, `ui/detail`; không dồn nghiệp vụ vào `MainActivity`.
-- Nhóm dự kiến luồng `UI → ViewModel → Repository → Data Source`. Model chung dự kiến: `User`, `Post`, `Category`, `Favorite`, `Request`. Thống nhất data contract và chọn Firebase/Room trước khi thêm dependency; BC1 chỉ cần Android SDK.
+- Nhóm dự kiến luồng `UI → ViewModel → Repository → Data Source`. Các model chung gồm `User`, `Post`, `Category`, `Favorite` và `Request`. Bản chạy mặc định dùng Mock. Xem hướng dẫn phần Quang để bật Firebase.
 - Cấu hình: AGP 8.13.2, Gradle 8.13, Kotlin 2.2.20, compile SDK 36, min SDK 26, JDK 17.
 
 ## Phân công và quy tắc Git
