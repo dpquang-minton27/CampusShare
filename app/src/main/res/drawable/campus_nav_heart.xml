@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Outline heart as in Figma: no filled star. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group android:translateX="2" android:translateY="4">
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#0D47A1"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M0,5.52 C0,2.47 2.38,0 5.47,0 C7.16,0 8.71,0.68 10,2.02 C11.29,0.68 12.84,0 14.53,0 C17.62,0 20,2.47 20,5.52 C20,7.81 18.50,9.52 17,11.02 L11.51,16.33 C10.70,17.25 9.30,17.25 8.49,16.33 L3,11.02 C1.50,9.52 0,7.81 0,5.52 Z" />
+    </group>
+</vector>

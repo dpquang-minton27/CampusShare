@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp" android:height="20dp"
+    android:viewportWidth="18" android:viewportHeight="18">
+    <!-- Path derived from the magnifier vector in Figma node 20:332. -->
+    <group android:translateX="2.25" android:translateY="2.25">
+        <path android:fillColor="@android:color/transparent"
+            android:strokeColor="#0D47A1" android:strokeWidth="2"
+            android:strokeLineCap="round" android:strokeLineJoin="round"
+            android:pathData="M13.5001,13.5001 L10.2451,10.2451 M12,6 C12,9.3137 9.3137,12 6,12 C2.6863,12 0,9.3137 0,6 C0,2.6863 2.6863,0 6,0 C9.3137,0 12,2.6863 12,6 Z" />
+    </group>
+</vector>
