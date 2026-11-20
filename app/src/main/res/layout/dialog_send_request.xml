@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gửi lời nhắn giới thiệu bản thân hoặc thời gian bạn có thể gặp nhận đồ (1–200 ký tự):"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/edtRequestMessage"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_search_bar"
+        android:gravity="top|start"
+        android:hint="VD: Chào bạn, mình đang cần giáo trình này cho kỳ tới. Mình có thể gặp ở thư viện lúc 10h sáng mai nhé!"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="200"
+        android:padding="12dp"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvCharCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="end"
+        android:text="0/200"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp" />
+</LinearLayout>
