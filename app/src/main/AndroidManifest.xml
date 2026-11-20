@@ -39,14 +39,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.PostGridAdapter"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.home.SearchFragment"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".ui.home.CreatePostActivity"
             android:exported="false"
             android:theme="@style/Theme.BaoCaoCuoiKy"
@@ -55,12 +47,7 @@
             android:name=".ui.home.MyPostsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
         <activity android:name=".ui.home.EditPostActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.home.MyPostAdapter"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity

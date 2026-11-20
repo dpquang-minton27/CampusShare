@@ -73,25 +73,39 @@ class EditPostActivity : AppCompatActivity() {
         binding.btnSavePost.setOnClickListener { saveChanges() }
     }
 
-    private fun loadPost(post: Post) = with(binding) {
-        edtTitle.setText(post.title)
-        edtDescription.setText(post.description)
-        edtLocation.setText(post.pickupLocation)
-        edtExchangeNote.setText(post.exchangeNote)
+    private fun loadPost(post: Post) {
+        binding.edtTitle.setText(post.title)
+        binding.edtDescription.setText(post.description)
+        binding.edtLocation.setText(post.pickupLocation)
+        binding.edtExchangeNote.setText(post.exchangeNote)
+
         imageUrl = post.imageUrl
         renderImage()
-        sliderCondition.value = post.conditionPercent.coerceIn(0, 100).toFloat()
-        tvCondition.text = "Mới ${post.conditionPercent.coerceIn(0, 100)}%"
-        // 'study' is a real legacy category in this repository; do not silently relabel it.
-        chipStudyLegacy.visibility = if (post.categoryId == "study") View.VISIBLE else View.GONE
-        chipGroupCategory.check(when (post.categoryId) {
+
+        val condition = post.conditionPercent.coerceIn(0, 100)
+        binding.sliderCondition.value = condition.toFloat()
+        binding.tvCondition.text = "Mới $condition%"
+
+        binding.chipStudyLegacy.visibility =
+            if (post.categoryId == "study") {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
+        val selectedChipId = when (post.categoryId) {
+            "books" -> R.id.chipBooks
             "tech" -> R.id.chipTech
             "dorm" -> R.id.chipDorm
             "personal" -> R.id.chipPersonal
             "study" -> R.id.chipStudyLegacy
             else -> R.id.chipBooks
-        })
+        }
+
+        binding.chipGroupCategory.check(selectedChipId)
+
         isExchange = post.postType == PostType.EXCHANGE
+
         updateTypeStyle()
         updateCategoryStyle()
     }
