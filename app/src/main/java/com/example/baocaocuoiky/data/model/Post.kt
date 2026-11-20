@@ -18,7 +18,7 @@ data class Post(
     val ownerName: String = "",
     val ownerClass: String = "",
     val ownerPhone: String = "",
-    val categoryId: String = "",      // "books", "tech", "dorm", "study"
+    val categoryId: String = "",      // "books", "tech", "dorm", "study" (legacy personal)
     val categoryName: String = "",
     val title: String = "",
     val description: String = "",
@@ -29,5 +29,8 @@ data class Post(
     val postStatus: String = PostStatus.AVAILABLE,
     val exchangeNote: String = "",
     val requestCount: Int = 0,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    // Backward-compatible extension: older screens read imageUrl as the cover.
+    // Additional local prototype images are kept here until a shared media backend exists.
+    val imageUrls: List<String> = emptyList()
 )

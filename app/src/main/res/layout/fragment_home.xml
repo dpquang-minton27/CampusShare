@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_screen"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <!-- Header: Logo UTE + Tên App + Đăng tin + Chuông + Tim -->
@@ -80,7 +82,7 @@
             android:src="@drawable/ic_heart_outline" />
     </LinearLayout>
 
-    <!-- Thanh tìm kiếm + Nút lọc -->
+    <!-- Tim kiem truc tiep tren Home. Chi tab Tim kiem o bottom nav mo SearchFragment. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,41 +93,65 @@
         android:paddingBottom="12dp">
 
         <LinearLayout
-            android:id="@+id/cardSearchShortcut"
+            android:id="@+id/homeSearchContainer"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
             android:background="@drawable/bg_pill_search"
-            android:clickable="true"
-            android:focusable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp">
+            android:paddingStart="12dp"
+            android:paddingEnd="8dp">
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:contentDescription="Tìm kiếm"
+                android:contentDescription="Biểu tượng tìm kiếm"
                 android:src="@android:drawable/ic_menu_search"
                 app:tint="@color/text_secondary" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/edtHomeSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
-                android:text="Tìm kiếm giáo trình, đồ dùng..."
-                android:textColor="@color/text_secondary"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Tên giáo trình, đồ dùng..."
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="0dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary"
                 android:textSize="13sp" />
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHomeSearch"
+            android:layout_width="80dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/primary_blue"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="Tìm kiếm"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:cornerRadius="0dp" />
 
         <ImageButton
             android:id="@+id/btnFilterShortcut"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/bg_circle_white_border"
-            android:contentDescription="Bộ lọc"
+            android:contentDescription="Lọc danh mục trên Trang chủ"
             android:padding="10dp"
             android:src="@drawable/ic_filter_sliders" />
     </LinearLayout>
@@ -310,6 +336,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tvHomeSectionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

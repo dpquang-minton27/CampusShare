@@ -4,8 +4,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -51,7 +49,11 @@ class MyPostsActivity : AppCompatActivity() {
                     putExtra("EXTRA_POST_ID", post.postId)
                 })
             },
-            onEditPost = { post -> showEditPostDialog(post) },
+            onEditPost = { post ->
+                startActivity(Intent(this, EditPostActivity::class.java).apply {
+                    putExtra(EditPostActivity.EXTRA_POST_ID, post.postId)
+                })
+            },
             onDeletePost = { post -> confirmDeletePost(post) }
         )
 
@@ -123,51 +125,6 @@ class MyPostsActivity : AppCompatActivity() {
 
         adapter.updateData(showing)
         binding.tvEmptyMyPosts.visibility = if (showing.isEmpty()) View.VISIBLE else View.GONE
-    }
-
-    private fun showEditPostDialog(post: Post) {
-        val container = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(48, 24, 48, 8)
-        }
-        val edtTitle = EditText(this).apply {
-            hint = "Tiêu đề món đồ"
-            setText(post.title)
-        }
-        val edtLocation = EditText(this).apply {
-            hint = "Địa điểm giao nhận"
-            setText(post.pickupLocation)
-        }
-        val edtDesc = EditText(this).apply {
-            hint = "Mô tả chi tiết"
-            setText(post.description)
-        }
-        container.addView(edtTitle)
-        container.addView(edtLocation)
-        container.addView(edtDesc)
-
-        AlertDialog.Builder(this)
-            .setTitle("Chỉnh Sửa Bài Đăng")
-            .setView(container)
-            .setNegativeButton("Hủy", null)
-            .setPositiveButton("Lưu") { _, _ ->
-                val newTitle = edtTitle.text.toString().trim()
-                if (newTitle.isBlank()) {
-                    Toast.makeText(this, "Tiêu đề không được để trống!", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
-                val idx = AppDataStore.posts.indexOfFirst { it.postId == post.postId }
-                if (idx != -1) {
-                    AppDataStore.posts[idx] = post.copy(
-                        title = newTitle,
-                        pickupLocation = edtLocation.text.toString().trim().ifBlank { post.pickupLocation },
-                        description = edtDesc.text.toString().trim().ifBlank { post.description }
-                    )
-                    Toast.makeText(this, "Đã cập nhật bài đăng!", Toast.LENGTH_SHORT).show()
-                    refreshList()
-                }
-            }
-            .show()
     }
 
     private fun confirmDeletePost(post: Post) {
