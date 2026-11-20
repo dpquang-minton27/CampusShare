@@ -2,9 +2,11 @@ package com.example.baocaocuoiky.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.baocaocuoiky.MainActivity
+import com.example.baocaocuoiky.R
 import com.example.baocaocuoiky.data.local.AppDataStore
 import com.example.baocaocuoiky.data.local.ProfileLocalStore
 import com.example.baocaocuoiky.data.local.SessionManager
@@ -14,6 +16,7 @@ import com.example.baocaocuoiky.ui.admin.AdminDashboardActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
+    private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,19 @@ class LoginActivity : AppCompatActivity() {
         }
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Xử lý nút show/hide mật khẩu
+        binding.btnTogglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                binding.edtPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnTogglePassword.setImageResource(R.drawable.login_ic_eye_off)
+            } else {
+                binding.edtPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.btnTogglePassword.setImageResource(R.drawable.login_ic_eye)
+            }
+            binding.edtPassword.setSelection(binding.edtPassword.text.length)
+        }
 
         binding.tvFillDemo.setOnClickListener {
             binding.edtEmail.setText("2415141122119@sv.ute.udn.vn")
@@ -51,6 +67,11 @@ class LoginActivity : AppCompatActivity() {
             }
             val user = AppDataStore.login(email, password)
             if (user != null) {
+                if (user.isLocked) {
+                    Toast.makeText(this, "Tài khoản của bạn đã bị Admin tạm khóa!", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
                 // Restore editable local profile data after a process restart or logout.
                 val restored = ProfileLocalStore.applySaved(this, user)
                 AppDataStore.updateUser(restored)

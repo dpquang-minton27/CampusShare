@@ -6,6 +6,7 @@ object PostType {
 }
 
 object PostStatus {
+    const val PENDING = "PENDING"     // Chờ duyệt
     const val AVAILABLE = "AVAILABLE" // Đang sẵn sàng
     const val TAKEN = "TAKEN"         // Đã cho xong
     const val EXCHANGED = "EXCHANGED" // Đã đổi xong

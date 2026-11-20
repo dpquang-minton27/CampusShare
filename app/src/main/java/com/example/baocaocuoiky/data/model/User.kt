@@ -9,5 +9,6 @@ data class User(
     val phone: String = "",
     val zaloPhone: String = "",
     val greenPoints: Int = 100,       // Điểm Sống Xanh
-    val role: String = "STUDENT"      // "STUDENT" hoặc "ADMIN"
+    val role: String = "STUDENT",     // "STUDENT" hoặc "ADMIN"
+    val isLocked: Boolean = false
 )

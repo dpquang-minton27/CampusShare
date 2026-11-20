@@ -40,7 +40,7 @@ object AppDataStore {
                 greenPoints = 999,
                 role = "ADMIN"
             ),
-            "123456"
+            "admin123"
         ),
         Pair(
             User(
@@ -462,5 +462,81 @@ object AppDataStore {
             return true
         }
         return false
+    }
+
+    fun adminApprovePost(postId: String) {
+        val idx = posts.indexOfFirst { it.postId == postId }
+        if (idx != -1) {
+            posts[idx] = posts[idx].copy(postStatus = PostStatus.AVAILABLE)
+        }
+    }
+
+    fun adminToggleLockUser(userId: String): Boolean {
+        val idx = registeredAccounts.indexOfFirst { it.first.userId == userId }
+        if (idx != -1) {
+            val (user, pass) = registeredAccounts[idx]
+            val updated = user.copy(isLocked = !user.isLocked)
+            registeredAccounts[idx] = updated to pass
+            return updated.isLocked
+        }
+        return false
+    }
+
+    init {
+        // Tài khoản Admin
+        if (registeredAccounts.none { it.first.role == "ADMIN" }) {
+            registeredAccounts.add(
+                User(
+                    userId = "admin_1",
+                    fullName = "Quản Trị Viên UTE",
+                    studentId = "ADMIN",
+                    className = "Phòng CTSV",
+                    email = "admin@ute.udn.vn",
+                    phone = "02363822571",
+                    zaloPhone = "02363822571",
+                    greenPoints = 999,
+                    role = "ADMIN"
+                ) to "admin123"
+            )
+        }
+
+        // Tài khoản sinh viên bị khóa mẫu (để test lọc "Đã khóa" & nút "Mở khóa")
+        if (registeredAccounts.none { it.first.userId == "u_locked" }) {
+            registeredAccounts.add(
+                User(
+                    userId = "u_locked",
+                    fullName = "Lê Văn Hoàng",
+                    studentId = "2315053122045",
+                    className = "23T2",
+                    email = "2315053122045@sv.ute.udn.vn",
+                    phone = "0905999888",
+                    zaloPhone = "0905999888",
+                    greenPoints = 10,
+                    role = "STUDENT",
+                    isLocked = true
+                ) to "123456"
+            )
+        }
+
+        // Bài đăng đang CHỜ DUYỆT mẫu (để test nút "Duyệt bài" và "Gỡ bài")
+        if (posts.none { it.postId == "p_pending_1" }) {
+            posts.add(
+                0,
+                Post(
+                    postId = "p_pending_1",
+                    ownerId = "u1",
+                    ownerName = "Nguyễn Tấn Thắng",
+                    categoryId = "books",
+                    title = "Giáo trình Lập trình Android cơ bản",
+                    description = "Sách còn mới, không rách trang, có ghi chú bài tập chương 1-5. Tặng lại cho bạn sinh viên khóa dưới cần học môn này.",
+                    conditionPercent = 90,
+                    postType = PostType.GIVE_AWAY,
+                    postStatus = PostStatus.PENDING,
+                    pickupLocation = "Sảnh Khu A UTE",
+                    imageUrl = "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500",
+                    createdAt = System.currentTimeMillis() - 10 * 60000L
+                )
+            )
+        }
     }
 }

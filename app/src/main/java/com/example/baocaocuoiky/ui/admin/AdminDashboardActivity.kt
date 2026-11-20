@@ -2,192 +2,223 @@ package com.example.baocaocuoiky.ui.admin
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.baocaocuoiky.R
 import com.example.baocaocuoiky.data.local.AppDataStore
 import com.example.baocaocuoiky.data.local.SessionManager
+import com.example.baocaocuoiky.data.model.Post
 import com.example.baocaocuoiky.data.model.PostStatus
 import com.example.baocaocuoiky.databinding.ActivityAdminDashboardBinding
-import com.example.baocaocuoiky.ui.detail.PostDetailActivity
-import com.google.android.material.tabs.TabLayout
+import com.example.baocaocuoiky.databinding.DialogAdminRejectBinding
+import com.example.baocaocuoiky.ui.auth.LoginActivity
 
 class AdminDashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminDashboardBinding
     private lateinit var postAdapter: AdminPostAdapter
-    private lateinit var simpleAdapter: AdminSimpleAdapter
-    private var currentTab = 0
+    private lateinit var userAdapter: AdminUserAdapter
+
+    private var mainTab = 0   // 0: Bài đăng, 1: Sinh viên
+    private var subFilter = 0 // Tab 0: (0=Chờ duyệt, 1=Tất cả, 2=Đang hiển thị) | Tab 1: (0=Tất cả, 1=Hoạt động, 2=Đã khóa)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val currentUser = SessionManager.getCurrentUser(this)
-        if (currentUser == null || currentUser.role != "ADMIN") {
-            goToLogin()
-            return
-        }
-
-        binding.btnAdminLogout.setOnClickListener {
-            SessionManager.clearSession(this)
-            goToLogin()
-        }
-
         postAdapter = AdminPostAdapter(
             items = emptyList(),
             onOpenDetail = { post ->
-                startActivity(Intent(this, PostDetailActivity::class.java).apply {
+                startActivity(Intent(this, AdminPostDetailActivity::class.java).apply {
                     putExtra("EXTRA_POST_ID", post.postId)
                 })
             },
-            onToggleModerate = { post ->
-                val updated = AppDataStore.adminToggleHidePost(post.postId)
-                if (updated != null) {
-                    val msg = if (updated.postStatus == PostStatus.HIDDEN) {
-                        "Đã ẩn bài đăng vi phạm!"
-                    } else {
-                        "Đã mở khóa hiển thị bài đăng!"
-                    }
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-                    refreshAll()
-                }
+            onApprove = { post ->
+                AppDataStore.adminApprovePost(post.postId)
+                Toast.makeText(this, "Đã duyệt bài \"${post.title}\"", Toast.LENGTH_SHORT).show()
+                refreshUI()
             },
-            onDelete = { post ->
-                AlertDialog.Builder(this)
-                    .setTitle("Xóa vĩnh viễn bài đăng?")
-                    .setMessage("Bạn chắc chắn muốn xóa \"${post.title}\" khỏi hệ thống?")
-                    .setNegativeButton("Hủy", null)
-                    .setPositiveButton("Xóa") { _, _ ->
-                        AppDataStore.adminDeletePost(post.postId)
-                        Toast.makeText(this, "Đã xóa bài đăng!", Toast.LENGTH_SHORT).show()
-                        refreshAll()
-                    }
-                    .show()
-            }
+            onDelete = { post -> showRejectDialog(post) }
         )
 
-        simpleAdapter = AdminSimpleAdapter(emptyList()) { row ->
-            if (currentTab == 1) {
-                val cat = AppDataStore.categories.firstOrNull { it.id == row.id } ?: return@AdminSimpleAdapter
-                cat.isActive = !cat.isActive
-                Toast.makeText(
-                    this,
-                    if (cat.isActive) "Đã kích hoạt danh mục ${cat.name}" else "Đã tạm khóa danh mục ${cat.name}",
-                    Toast.LENGTH_SHORT
-                ).show()
-                refreshAll()
-            }
+        userAdapter = AdminUserAdapter(emptyList()) { user ->
+            val lockedNow = AppDataStore.adminToggleLockUser(user.userId)
+            val msg = if (lockedNow) "Đã khóa tài khoản ${user.fullName}" else "Đã mở khóa ${user.fullName}"
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            refreshUI()
         }
 
-        binding.rvAdminContent.layoutManager = LinearLayoutManager(this)
-        binding.rvAdminContent.adapter = postAdapter
+        binding.rvAdminList.layoutManager = LinearLayoutManager(this)
 
-        binding.tabLayoutAdmin.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                currentTab = tab?.position ?: 0
-                refreshAll()
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) = Unit
-            override fun onTabReselected(tab: TabLayout.Tab?) = Unit
+        binding.navTabPosts.setOnClickListener { switchMainTab(0) }
+        binding.navTabUsers.setOnClickListener { switchMainTab(1) }
+        binding.cardStatPending.setOnClickListener {
+            subFilter = 0
+            refreshUI()
+        }
+        binding.cardStatStudents.setOnClickListener { switchMainTab(1) }
+
+        binding.pillFilter1.setOnClickListener { subFilter = 0; refreshUI() }
+        binding.pillFilter2.setOnClickListener { subFilter = 1; refreshUI() }
+        binding.pillFilter3.setOnClickListener { subFilter = 2; refreshUI() }
+
+        binding.edtAdminSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { refreshUI() }
+            override fun afterTextChanged(s: Editable?) {}
         })
 
-        binding.fabAddCategory.setOnClickListener { showAddCategoryDialog() }
+        binding.btnAdminLogout.setOnClickListener {
+            SessionManager.clearSession(this)
+            startActivity(Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+            finish()
+        }
+
+        switchMainTab(0)
     }
 
     override fun onResume() {
         super.onResume()
-        refreshAll()
+        refreshUI()
     }
 
-    private fun refreshAll() {
-        // Cập nhật 4 chỉ số thống kê KPI
-        val totalPosts = AppDataStore.posts.size
-        val completedCount = AppDataStore.posts.count {
+    private fun switchMainTab(tab: Int) {
+        mainTab = tab
+        subFilter = 0
+        binding.edtAdminSearch.setText("")
+
+        val blue = ContextCompat.getColor(this, R.color.primary_blue)
+        val gray = ContextCompat.getColor(this, R.color.text_secondary)
+
+        if (tab == 0) {
+            binding.tvHeaderTitle.text = "Quản Trị Hệ Thống"
+            binding.tvHeaderSubtitle.text = "CampusShare UTE"
+            binding.layoutStatsGrid.visibility = View.VISIBLE
+            binding.edtAdminSearch.hint = "Tìm bài đăng, người đăng, MSV..."
+
+            binding.icNavPosts.imageTintList = ColorStateList.valueOf(blue)
+            binding.tvNavPosts.setTextColor(blue)
+            binding.icNavUsers.imageTintList = ColorStateList.valueOf(gray)
+            binding.tvNavUsers.setTextColor(gray)
+
+            binding.rvAdminList.adapter = postAdapter
+        } else {
+            binding.tvHeaderTitle.text = "Danh Sách Sinh Viên"
+            binding.tvHeaderSubtitle.text = "Quản lý tài khoản & Điểm Sống Xanh UTE"
+            binding.layoutStatsGrid.visibility = View.GONE
+            binding.edtAdminSearch.hint = "Tìm họ tên, MSV hoặc lớp học phần..."
+
+            binding.icNavUsers.imageTintList = ColorStateList.valueOf(blue)
+            binding.tvNavUsers.setTextColor(blue)
+            binding.icNavPosts.imageTintList = ColorStateList.valueOf(gray)
+            binding.tvNavPosts.setTextColor(gray)
+
+            binding.rvAdminList.adapter = userAdapter
+        }
+        refreshUI()
+    }
+
+    private fun refreshUI() {
+        val allPosts = AppDataStore.posts
+        val students = AppDataStore.registeredAccounts.map { it.first }.filter { it.role != "ADMIN" }
+        val pendingPosts = allPosts.filter { it.postStatus == PostStatus.PENDING }
+        val completedCount = allPosts.count {
             it.postStatus == PostStatus.TAKEN || it.postStatus == PostStatus.EXCHANGED
         }
-        val hiddenCount = AppDataStore.posts.count { it.postStatus == PostStatus.HIDDEN }
-        val studentGreenPoints = AppDataStore.registeredAccounts
-            .filter { it.first.role == "STUDENT" }
-            .sumOf { it.first.greenPoints }
 
-        binding.tvStatTotalPosts.text = totalPosts.toString()
+        // Cập nhật 4 thẻ thống kê
+        binding.tvStatTotalPosts.text = allPosts.size.toString()
+        binding.tvStatPending.text = pendingPosts.size.toString()
+        binding.tvStatStudents.text = students.size.toString()
         binding.tvStatCompleted.text = completedCount.toString()
-        binding.tvStatGreenPoints.text = studentGreenPoints.toString()
-        binding.tvStatHidden.text = hiddenCount.toString()
 
-        when (currentTab) {
-            0 -> {
-                binding.fabAddCategory.visibility = View.GONE
-                binding.rvAdminContent.adapter = postAdapter
-                postAdapter.updateData(AppDataStore.posts.toList())
+        // Cập nhật style 3 nút lọc ngang
+        stylePill(binding.pillFilter1, subFilter == 0)
+        stylePill(binding.pillFilter2, subFilter == 1)
+        stylePill(binding.pillFilter3, subFilter == 2)
+
+        val query = binding.edtAdminSearch.text.toString().trim().lowercase()
+
+        if (mainTab == 0) {
+            binding.pillFilter1.text = "Chờ duyệt (${pendingPosts.size})"
+            binding.pillFilter2.text = "Tất cả (${allPosts.size})"
+            binding.pillFilter3.text = "Đang hiển thị"
+
+            val byFilter = when (subFilter) {
+                0 -> pendingPosts
+                1 -> allPosts
+                else -> allPosts.filter { it.postStatus == PostStatus.AVAILABLE }
             }
-            1 -> {
-                binding.fabAddCategory.visibility = View.VISIBLE
-                binding.rvAdminContent.adapter = simpleAdapter
-                val rows = AppDataStore.categories.map { cat ->
-                    val count = AppDataStore.posts.count { it.categoryId == cat.id }
-                    AdminRowItem(
-                        id = cat.id,
-                        title = "${cat.name} ($count tin)",
-                        subtitle = "${cat.description} • Bấm để đổi trạng thái",
-                        badge = if (cat.isActive) "Đang mở" else "Tạm khóa"
-                    )
-                }
-                simpleAdapter.updateData(rows)
+            val result = byFilter.filter {
+                query.isEmpty() || it.title.lowercase().contains(query) || it.ownerName.lowercase().contains(query)
             }
-            else -> {
-                binding.fabAddCategory.visibility = View.GONE
-                binding.rvAdminContent.adapter = simpleAdapter
-                val rows = AppDataStore.registeredAccounts.map { (user, _) ->
-                    AdminRowItem(
-                        id = user.userId,
-                        title = "${user.fullName} (${user.studentId})",
-                        subtitle = "${user.className} • ${user.email}",
-                        badge = "${user.greenPoints} điểm xanh"
-                    )
-                }
-                simpleAdapter.updateData(rows)
+            postAdapter.updateData(result)
+            binding.tvAdminEmpty.visibility = if (result.isEmpty()) View.VISIBLE else View.GONE
+        } else {
+            val lockedUsers = students.filter { it.isLocked }
+            binding.pillFilter1.text = "Tất cả (${students.size})"
+            binding.pillFilter2.text = "Đang hoạt động"
+            binding.pillFilter3.text = "Đã khóa (${lockedUsers.size})"
+
+            val byFilter = when (subFilter) {
+                0 -> students
+                1 -> students.filter { !it.isLocked }
+                else -> lockedUsers
             }
+            val result = byFilter.filter {
+                query.isEmpty() ||
+                    it.fullName.lowercase().contains(query) ||
+                    it.studentId.lowercase().contains(query) ||
+                    it.className.lowercase().contains(query)
+            }
+            userAdapter.updateData(result)
+            binding.tvAdminEmpty.visibility = if (result.isEmpty()) View.VISIBLE else View.GONE
         }
     }
 
-    private fun showAddCategoryDialog() {
-        val container = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(48, 24, 48, 8)
-        }
-        val edtName = EditText(this).apply { hint = "Tên danh mục mới (VD: Đồng phục thể dục)" }
-        val edtDesc = EditText(this).apply { hint = "Mô tả ngắn" }
-        container.addView(edtName)
-        container.addView(edtDesc)
-
-        AlertDialog.Builder(this)
-            .setTitle("Thêm Danh Mục Mới")
-            .setView(container)
-            .setNegativeButton("Hủy", null)
-            .setPositiveButton("Thêm") { _, _ ->
-                val name = edtName.text.toString().trim()
-                if (name.length >= 2) {
-                    AppDataStore.addCategory(name, edtDesc.text.toString())
-                    Toast.makeText(this, "Đã thêm danh mục $name!", Toast.LENGTH_SHORT).show()
-                    refreshAll()
-                } else {
-                    Toast.makeText(this, "Tên danh mục quá ngắn!", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .show()
+    private fun stylePill(pill: TextView, active: Boolean) {
+        val blue = ContextCompat.getColor(this, R.color.primary_blue)
+        val white = ContextCompat.getColor(this, R.color.white)
+        pill.setBackgroundResource(if (active) R.drawable.bg_pill_blue else R.drawable.bg_pill_outline)
+        pill.setTextColor(if (active) white else blue)
     }
 
-    private fun goToLogin() {
-        startActivity(Intent(this, com.example.baocaocuoiky.ui.auth.LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        })
-        finish()
+    private fun showRejectDialog(post: Post) {
+        val dialogBinding = DialogAdminRejectBinding.inflate(layoutInflater)
+        dialogBinding.tvRejectSubtitle.text = "Chọn hoặc nhập lý do gửi thông báo đến sinh viên ${post.ownerName}:"
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogBinding.btnCancelReject.setOnClickListener { dialog.dismiss() }
+        dialogBinding.btnConfirmReject.setOnClickListener {
+            val selectedText = when (dialogBinding.rgRejectReasons.checkedRadioButtonId) {
+                R.id.rbReason1 -> dialogBinding.rbReason1.text.toString()
+                R.id.rbReason2 -> dialogBinding.rbReason2.text.toString()
+                else -> dialogBinding.rbReason3.text.toString()
+            }
+            val note = dialogBinding.edtCustomReason.text.toString().trim()
+            val finalReason = if (note.isNotEmpty()) "$selectedText ($note)" else selectedText
+
+            AppDataStore.adminDeletePost(post.postId)
+            Toast.makeText(this, "Đã gỡ bài: $finalReason", Toast.LENGTH_LONG).show()
+            dialog.dismiss()
+            refreshUI()
+        }
+
+        dialog.show()
     }
 }
