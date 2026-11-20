@@ -1,5 +1,6 @@
 package com.example.baocaocuoiky.ui.auth
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -9,6 +10,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.example.baocaocuoiky.data.local.AppDataStore
 import com.example.baocaocuoiky.databinding.ActivityForgotPasswordBinding
 
@@ -26,14 +31,30 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Layout can extend edge-to-edge; manually keep controls clear of system bars and IME.
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val keyboard = insets.getInsets(WindowInsetsCompat.Type.ime())
+
+            // When the keyboard opens, extra bottom scroll padding keeps the form reachable.
+            view.updatePadding(
+                top = bars.top,
+                bottom = maxOf(bars.bottom, keyboard.bottom)
+            )
+            insets
+        }
+        ViewCompat.requestApplyInsets(binding.root)
 
         otpBoxes = listOf(
             binding.edtOtp1, binding.edtOtp2, binding.edtOtp3,
             binding.edtOtp4, binding.edtOtp5, binding.edtOtp6
         )
         setupOtpInputs()
+        setupKeyboardSafeScrolling()
 
         binding.btnSendOtp.setOnClickListener {
             validateAndGoToOtp()
@@ -50,6 +71,27 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 showStep1()
             } else {
                 finish()
+            }
+        }
+    }
+
+    /** Keep the focused input visible above the IME on compact phones. */
+    private fun setupKeyboardSafeScrolling() {
+        val fields = listOf(
+            binding.edtStudentIdOrEmail,
+            binding.edtNewPassword,
+            binding.edtConfirmPassword
+        ) + otpBoxes
+
+        fields.forEach { field ->
+            field.setOnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    // Let the soft keyboard resize/inset the window before scrolling.
+                    view.postDelayed({
+                        val focusedBounds = Rect(0, 0, view.width, view.height)
+                        view.requestRectangleOnScreen(focusedBounds, false)
+                    }, 220L)
+                }
             }
         }
     }

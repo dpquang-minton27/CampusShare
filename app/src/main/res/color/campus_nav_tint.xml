@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Figma inactive icon/label is #0D47A1 at 50% opacity on white: #86A3D0. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="@color/campus_nav_blue" />
+    <item android:color="@color/campus_nav_inactive" />
+</selector>

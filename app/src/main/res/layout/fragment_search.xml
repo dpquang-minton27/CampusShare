@@ -4,202 +4,369 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_screen"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <!-- Thanh tìm kiếm trên cùng -->
+    <!-- Figma 16:10: 48dp white title bar, not a blue banner. -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="TÌM KIẾM &amp; BỘ LỌC"
+        android:textColor="@color/primary_blue"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Search row: outlined text input + circular filter button with badge. -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primary_blue"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tìm Kiếm &amp; Bộ Lọc"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+        android:layout_height="72dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="10dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_search_bar"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_bg_field"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="12dp">
+            android:paddingStart="14dp"
+            android:paddingEnd="12dp">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:contentDescription="Tìm"
-                android:src="@android:drawable/ic_menu_search"
-                app:tint="@color/text_secondary" />
+                android:contentDescription="Tìm kiếm"
+                android:src="@drawable/search_ic_magnifier" />
 
             <EditText
                 android:id="@+id/edtSearchQuery"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="Nhập tên đồ dùng (VD: Casio, Giải tích)..."
+                android:hint="Tìm theo tên đồ dùng"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
+                android:padding="0dp"
+                android:textColor="@color/primary_blue"
+                android:textColorHint="@color/text_secondary"
+                android:textSize="15sp" />
 
             <ImageButton
                 android:id="@+id/btnClearSearch"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Xóa"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:visibility="gone"
-                app:tint="@color/text_secondary" />
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:background="@drawable/search_bg_clear"
+                android:contentDescription="Xóa từ khóa"
+                android:padding="4dp"
+                android:src="@drawable/search_ic_close" />
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="10dp">
+
+            <ImageButton
+                android:id="@+id/btnToggleFilters"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_bg_filter_button"
+                android:contentDescription="Ẩn bộ lọc"
+                android:padding="14dp"
+                android:src="@drawable/search_ic_sliders" />
+
+            <TextView
+                android:id="@+id/tvActiveFilterCount"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="top|end"
+                android:background="@drawable/search_bg_filter_badge"
+                android:gravity="center"
+                android:importantForAccessibility="no"
+                android:text="3"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </FrameLayout>
     </LinearLayout>
 
-    <!-- Khu vực Chip lọc + Slider độ mới -->
-    <LinearLayout
+    <!-- Figma filter card: 16dp radius, white surface, soft outline/shadow. -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/filterCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="10dp">
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:selectionRequired="true"
-                app:singleLine="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipTypeAll"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Tất cả hình thức" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipTypeGive"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cho tặng 0đ" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipTypeExchange"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trao đổi" />
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupSearchCat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:selectionRequired="true"
-                app:singleLine="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSearchCatAll"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Mọi danh mục" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSearchCatBooks"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Giáo trình" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSearchCatTech"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Điện tử" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSearchCatDorm"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đồ KTX" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSearchCatStudy"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dụng cụ học" />
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="3dp"
+        app:strokeColor="@color/border_gray"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="12dp">
 
             <TextView
-                android:id="@+id/tvConditionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Độ mới từ: 0%"
-                android:textColor="@color/text_primary"
+                android:text="Danh mục"
+                android:textColor="@color/primary_blue"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fillViewport="false"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupSearchCat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipSpacingHorizontal="5dp"
+                    app:selectionRequired="true"
+                    app:singleLine="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSearchCatAll"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Tất cả" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSearchCatBooks"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giáo trình" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSearchCatTech"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thiết bị" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSearchCatDorm"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đồ KTX" />
+
+                    <!-- AppDataStore/HomeFragment map the personal category to id "study". -->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSearchCatStudy"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đồ cá nhân" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Hình thức chia sẻ"
+                android:textColor="@color/primary_blue"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipSpacingHorizontal="6dp"
+                    app:selectionRequired="false"
+                    app:singleLine="true"
+                    app:singleSelection="true">
+
+                    <!-- Keep the legacy id available without adding a chip absent from Figma. -->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipTypeAll"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tất cả hình thức"
+                        android:visibility="gone" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipTypeGive"
+                        style="@style/Widget.CampusShare.SearchChip.Give"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cho tặng 0đ (GIVE_AWAY)" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipTypeExchange"
+                        style="@style/Widget.CampusShare.SearchChip.Exchange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Trao đổi (EXCHANGE)" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Trạng thái"
+                android:textColor="@color/primary_blue"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipSpacingHorizontal="5dp"
+                    app:selectionRequired="true"
+                    app:singleLine="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipStatusAvailable"
+                        style="@style/Widget.CampusShare.SearchChip.Status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Còn đồ (AVAILABLE)" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipStatusCompleted"
+                        style="@style/Widget.CampusShare.SearchChip.Status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đã cho/Đã trao (TAKEN/EXCHANGED)" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tình trạng sử dụng (%)"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <!-- ID retained because SearchFragment.kt writes the current percentage. -->
+                <TextView
+                    android:id="@+id/tvConditionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <com.google.android.material.slider.Slider
                 android:id="@+id/sliderCondition"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:stepSize="10.0"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:contentDescription="Tình trạng sử dụng tối thiểu"
+                android:stepSize="1.0"
                 android:value="0.0"
                 android:valueFrom="0.0"
-                android:valueTo="100.0" />
+                android:valueTo="100.0"
+                app:haloColor="@color/primary_blue_light"
+                app:labelBehavior="gone"
+                app:thumbColor="@color/primary_blue"
+                app:thumbRadius="11dp"
+                app:trackColorActive="@color/primary_blue"
+                app:trackColorInactive="@color/border_gray"
+                app:trackHeight="4dp" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupCondition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipSpacingHorizontal="5dp"
+                    app:selectionRequired="false"
+                    app:singleLine="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCondition70"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mới &gt; 70%" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCondition80"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mới &gt; 80%" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCondition90"
+                        style="@style/Widget.CampusShare.SearchChip.Primary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mới &gt; 90%" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
         </LinearLayout>
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/tvResultCount"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:text="Tìm thấy 4 kết quả"
         android:textColor="@color/text_secondary"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tvEmptySearch"
@@ -211,13 +378,15 @@
         android:textColor="@color/text_secondary"
         android:visibility="gone" />
 
+    <!-- Grid items come from item_post_grid.xml shared with Home/Favorites. -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchResults"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingHorizontal="8dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:paddingBottom="16dp" />
 
 </LinearLayout>

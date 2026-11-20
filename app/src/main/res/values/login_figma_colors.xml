@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Figma master blue; transparent text colors composited over white. -->
+    <color name="login_blue">#0D47A1</color>
+    <color name="login_blue_80">#3D6CB4</color>
+    <color name="login_blue_60">#6E92C6</color>
+    <color name="login_blue_50">#86A3D0</color>
+    <color name="login_green">#2E7D32</color>
+    <color name="login_white">#FFFFFF</color>
+    <color name="login_input_background">#F8FAFC</color>
+    <color name="login_border">#E2E8F0</color>
+</resources>

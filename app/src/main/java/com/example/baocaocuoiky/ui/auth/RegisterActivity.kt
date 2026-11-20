@@ -3,6 +3,8 @@ package com.example.baocaocuoiky.ui.auth
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.baocaocuoiky.data.local.AppDataStore
 import com.example.baocaocuoiky.data.model.User
 import com.example.baocaocuoiky.databinding.ActivityRegisterBinding
@@ -15,6 +17,12 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.setPadding(0, statusBarInsets.top, 0, 0)
+            insets
+        }
 
         binding.btnRegister.setOnClickListener {
             handleRegister()

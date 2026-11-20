@@ -55,6 +55,10 @@
             android:name=".ui.home.MyPostsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".ui.home.EditPostActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.home.MyPostAdapter"
             android:exported="false"

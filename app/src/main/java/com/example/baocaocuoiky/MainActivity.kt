@@ -2,6 +2,8 @@ package com.example.baocaocuoiky
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.baocaocuoiky.databinding.ActivityMainBinding
 import com.example.baocaocuoiky.ui.detail.FavoritesFragment
@@ -17,6 +19,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Tự động đẩy toàn bộ giao diện xuống bên dưới Status Bar (pin, wifi, đồng hồ...)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            view.setPadding(0, statusBarInsets.top, 0, 0)
+            insets
+        }
 
         // Mặc định mở Trang chủ khi vào app
         if (savedInstanceState == null) {
