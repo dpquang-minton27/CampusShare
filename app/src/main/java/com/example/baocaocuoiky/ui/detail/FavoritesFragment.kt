@@ -6,16 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.baocaocuoiky.MainActivity
 import com.example.baocaocuoiky.data.local.AppDataStore
 import com.example.baocaocuoiky.databinding.FragmentFavoritesBinding
-import com.example.baocaocuoiky.ui.home.PostGridAdapter
 
+/** Figma 16:656: vertical favorite cards. The bottom navigation belongs to MainActivity. */
 class FavoritesFragment : Fragment() {
 
     private var _binding: FragmentFavoritesBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var adapter: PostGridAdapter
+    private val binding get() = requireNotNull(_binding)
+    private lateinit var adapter: FavoritePostAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,30 +30,41 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PostGridAdapter(emptyList()) { post ->
-            startActivity(Intent(requireContext(), PostDetailActivity::class.java).apply {
-                putExtra("EXTRA_POST_ID", post.postId)
-            })
-        }
-
-        binding.rvFavorites.layoutManager = GridLayoutManager(requireContext(), 2)
+        adapter = FavoritePostAdapter(
+            onOpenDetail = { post -> openDetail(post.postId, false) },
+            onRequest = { post -> openDetail(post.postId, true) }
+        )
+        binding.rvFavorites.layoutManager = LinearLayoutManager(requireContext())
         binding.rvFavorites.adapter = adapter
+        binding.btnFavBack.setOnClickListener {
+            (activity as? MainActivity)?.openHomeTab()
+                ?: requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        loadFavorites()
+        if (_binding != null) loadFavorites()
     }
 
     private fun loadFavorites() {
-        val favPosts = AppDataStore.posts.filter { AppDataStore.favoritePostIds.contains(it.postId) }
-        adapter.updateData(favPosts)
-        binding.tvFavCount.text = "Bạn đã lưu ${favPosts.size} món đồ"
-        binding.tvEmptyFav.visibility = if (favPosts.isEmpty()) View.VISIBLE else View.GONE
+        val favoriteIds = AppDataStore.favoritePostIds
+        val savedPosts = AppDataStore.posts.filter { it.postId in favoriteIds }
+        adapter.submitList(savedPosts.toList())
+        binding.tvEmptyFav.visibility = if (savedPosts.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun openDetail(postId: String, requestImmediately: Boolean) {
+        val intent = Intent(requireContext(), PostDetailActivity::class.java).apply {
+            putExtra("EXTRA_POST_ID", postId)
+            putExtra(PostDetailActivity.EXTRA_OPEN_REQUEST_DIALOG, requestImmediately)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        binding.rvFavorites.adapter = null
         _binding = null
+        super.onDestroyView()
     }
 }

@@ -23,10 +23,16 @@ import java.util.concurrent.TimeUnit
 /** Screen source: Figma 08_Item_Detail_Screen (node 16:398). */
 class PostDetailActivity : AppCompatActivity() {
 
+    companion object {
+        /** Favorite card CTA opens the same validated request dialog as the detail action. */
+        const val EXTRA_OPEN_REQUEST_DIALOG = "EXTRA_OPEN_REQUEST_DIALOG"
+    }
+
     private lateinit var binding: ActivityPostDetailBinding
     private var postId: String = ""
     private var galleryUrls: List<String> = emptyList()
     private var galleryIndex: Int = 0
+    private var pendingAutoRequest: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,10 @@ class PostDetailActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        // Consume this one-shot request only on fresh navigation, never on rotation.
+        pendingAutoRequest = savedInstanceState == null &&
+            intent.getBooleanExtra(EXTRA_OPEN_REQUEST_DIALOG, false)
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnShare.setOnClickListener { sharePost() }
@@ -140,6 +150,21 @@ class PostDetailActivity : AppCompatActivity() {
         galleryIndex = 0
         showGalleryImage()
         setupActionButtons(post, currentUser)
+        maybeOpenFavoriteRequestDialog(post, currentUser)
+    }
+
+    /** Reuses the normal validated flow; an owner, unavailable post or repeat requester
+     *  must never see an automatically opened request dialog. */
+    private fun maybeOpenFavoriteRequestDialog(post: Post, currentUser: User) {
+        if (!pendingAutoRequest) return
+        pendingAutoRequest = false
+        val isOwnPost = post.ownerId == currentUser.userId
+        val alreadyRequested = AppDataStore.requests.any {
+            it.postId == post.postId && it.requesterId == currentUser.userId
+        }
+        if (!isOwnPost && !alreadyRequested && post.postStatus == PostStatus.AVAILABLE) {
+            showSendRequestDialog(post, currentUser)
+        }
     }
 
     private fun showGalleryImage() {

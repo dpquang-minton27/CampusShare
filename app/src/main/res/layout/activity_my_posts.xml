@@ -73,11 +73,6 @@
                     app:iconSize="16dp"
                     app:iconTint="@color/white" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/border_gray" />
         </LinearLayout>
 
         <!-- Figma: tabs start at screen x=16, y=80; 34dp high. -->
