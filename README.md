@@ -22,7 +22,7 @@ Nếu Gradle Sync lỗi, kiểm tra **Settings → Build, Execution, Deployment 
 - `app/src/main/java/com/campusshare/app/`: mã Kotlin; `res/layout/`: giao diện XML; `res/values/`: chuỗi, màu, theme.
 - `MainActivity` là khung BC1. Khi phát triển chức năng, đặt code theo `ui/auth`, `ui/posts`, `ui/detail`, `data`, `domain` dưới package `com.campusshare.app`. Mỗi phần gồm UI, ViewModel và logic liên quan; không dồn code nghiệp vụ vào `MainActivity`.
 - Nhóm dự kiến luồng `UI → ViewModel → Repository → Data Source`. Model chung dự kiến: `User`, `Post`, `Category`, `Favorite`, `Request`. Thống nhất data contract và chọn Firebase/Room trước khi thêm dependency; BC1 chỉ cần Android SDK.
-- Cấu hình: AGP 8.13.2, Gradle 8.13, Kotlin 2.2.20, compile SDK 36, min SDK 26, JDK 17.
+- Cấu hình: AGP 9.4.0, Gradle 9.6.0, Kotlin 2.3.21, compile SDK 36, min SDK 26, JDK 21.
 
 ## Phân công và quy tắc Git
 
