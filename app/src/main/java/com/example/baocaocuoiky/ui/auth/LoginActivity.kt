@@ -43,17 +43,7 @@ class LoginActivity : AppCompatActivity() {
             }
             binding.edtPassword.setSelection(binding.edtPassword.text.length)
         }
-
-        binding.tvFillDemo.setOnClickListener {
-            binding.edtEmail.setText("2415141122119@sv.ute.udn.vn")
-            binding.edtPassword.setText("123456")
-            Toast.makeText(this, "Đã điền tài khoản Sinh viên!", Toast.LENGTH_SHORT).show()
-        }
-        binding.tvFillAdmin.setOnClickListener {
-            binding.edtEmail.setText("admin@ute.udn.vn")
-            binding.edtPassword.setText("123456")
-            Toast.makeText(this, "Đã điền tài khoản Quản trị viên (Admin)!", Toast.LENGTH_SHORT).show()
-        }
+        // Xử lý nút đăng nhập
         binding.btnLogin.setOnClickListener {
             val email = binding.edtEmail.text.toString().trim()
             val password = binding.edtPassword.text.toString()

@@ -295,22 +295,6 @@
                     app:strokeColor="@color/login_border"
                     app:strokeWidth="1dp" />
 
-                <!-- Invisible compatibility hooks: demo shortcut ids are still bound. -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
-                    <TextView
-                        android:id="@+id/tvFillDemo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/login_demo_student" />
-                    <TextView
-                        android:id="@+id/tvFillAdmin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/login_demo_admin" />
-                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
