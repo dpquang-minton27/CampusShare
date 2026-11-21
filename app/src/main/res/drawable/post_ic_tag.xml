@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Outer vector from Figma 27:77; small hole based on screenshot. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp" android:height="18dp"
+    android:viewportWidth="18" android:viewportHeight="18">
+    <path android:pathData="M8.37896,1.49951 C8.77679,1.4996 9.15829,1.6577 9.43955,1.93905 L15.9681,8.46759 C16.3069,8.80851 16.497,9.26959 16.497,9.7502 C16.497,10.2308 16.3069,10.6919 15.9681,11.0328 L11.0327,15.9682 C10.6918,16.307 10.2307,16.4971 9.75008,16.4971 C9.26947,16.4971 8.80838,16.307 8.46747,15.9682 L1.93893,9.43967 C1.65758,9.15841 1.49947,8.77691 1.49939,8.37908 V2.99964 C1.49939,2.60178 1.65744,2.22022 1.93877,1.93889 C2.22009,1.65756 2.60166,1.49951 2.99951,1.49951 H8.37896 Z"
+        android:fillColor="@android:color/transparent" android:strokeColor="@color/cs_primary"
+        android:strokeWidth="2" android:strokeLineCap="round" />
+    <path android:pathData="M5.5,5.5 A0.75,0.75 0,1 1,4 5.5 A0.75,0.75 0,1 1,5.5 5.5"
+        android:fillColor="@color/cs_primary" />
+</vector>

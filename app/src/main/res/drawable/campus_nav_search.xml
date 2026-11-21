@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Outline search from the Figma search-active geometry; centered 20x20 region. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <group android:translateX="4.5" android:translateY="4.5">
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#0D47A1"
+            android:strokeWidth="2.3"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M15,15 L11.38,11.38 M13.333,6.667 C13.333,10.349 10.349,13.333 6.667,13.333 C2.985,13.333 0,10.349 0,6.667 C0,2.985 2.985,0 6.667,0 C10.349,0 13.333,2.985 13.333,6.667 Z" />
+    </group>
+</vector>

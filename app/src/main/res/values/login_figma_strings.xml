@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_school_name">ĐẠI HỌC SƯ PHẠM KỸ THUẬT - ĐH ĐÀ NẴNG</string>
+    <string name="login_product_name">CampusShare</string>
+    <string name="login_slogan">Chia sẻ đồ dùng – Kết nối sinh viên</string>
+    <string name="login_logo_content_description">Logo Trường Đại học Sư phạm Kỹ thuật Đà Nẵng</string>
+    <string name="login_heading">Đăng Nhập</string>
+    <string name="login_intro">Vui lòng nhập thông tin tài khoản của bạn.</string>
+    <string name="login_email_hint">Email sinh viên (...@sv.ute.udn.vn)</string>
+    <string name="login_password_hint">Mật khẩu</string>
+    <string name="login_forgot">Quên mật khẩu?</string>
+    <string name="login_submit">ĐĂNG NHẬP</string>
+    <string name="login_or_continue">Hoặc đăng nhập bằng</string>
+    <string name="login_google">Google</string>
+    <string name="login_no_account">Chưa có tài khoản?</string>
+    <string name="login_register_now">Đăng ký ngay</string>
+    <string name="login_demo_student">TK Sinh viên</string>
+    <string name="login_demo_admin">TK Admin</string>
+    <string name="login_google_pending">Đăng nhập Google chưa được tích hợp trong phiên bản này.</string>
+    <string name="login_fill_student">Đã điền tài khoản Sinh viên!</string>
+    <string name="login_fill_admin">Đã điền tài khoản Quản trị viên (Admin)!</string>
+    <string name="login_email_required">Vui lòng nhập email!</string>
+    <string name="login_password_required">Vui lòng nhập mật khẩu!</string>
+    <string name="login_welcome">Xin chào %1$s!</string>
+    <string name="login_invalid_credentials">Email hoặc mật khẩu chưa đúng!</string>
+    <string name="login_password_show">Hiện mật khẩu</string>
+    <string name="login_password_hide">Ẩn mật khẩu</string>
+</resources>

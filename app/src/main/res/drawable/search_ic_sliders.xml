@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="20" android:viewportHeight="20">
+    <!-- Reproduces the Figma slider icon's path in node 20:338. -->
+    <group android:translateX="2.5" android:translateY="2.5">
+        <path android:fillColor="@android:color/transparent"
+            android:strokeColor="#FFFFFF" android:strokeWidth="1.85"
+            android:strokeLineCap="round" android:strokeLineJoin="round"
+            android:pathData="M5.8333,4.1667 L9.1667,4.1667 M7.5,15 L7.5,7.5 M7.5,4.1667 L7.5,0 M11.6667,10.8333 L15,10.8333 M13.3333,7.5 L13.3333,0 M13.3333,15 L13.3333,10.8333 M0,9.1667 L3.3333,9.1667 M1.6667,5.8333 L1.6667,0 M1.6667,15 L1.6667,9.1667" />
+    </group>
+</vector>

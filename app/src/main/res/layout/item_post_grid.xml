@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <!-- Ảnh sản phẩm bo góc nằm trong khung trắng + nhãn AVAILABLE góc trên phải -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imgPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/border_gray"
+                    android:contentDescription="Ảnh sản phẩm"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tvStatusBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_badge_pill"
+                    android:backgroundTint="#2E7D32"
+                    android:paddingHorizontal="9dp"
+                    android:paddingVertical="3dp"
+                    android:text="AVAILABLE"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Nhãn hình thức căn giữa dưới ảnh: 0đ GIVE_AWAY / TRAO ĐỔI EXCHANGE -->
+        <TextView
+            android:id="@+id/tvTypeBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_badge_pill"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:text="0đ GIVE_AWAY"
+            android:textColor="@color/status_green"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <!-- Tiêu đề màu xanh đậm -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="Quạt tích điện mini KTX"
+            android:textColor="@color/primary_blue"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- 3 dòng thông tin chi tiết -->
+        <TextView
+            android:id="@+id/tvCondition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Tình trạng: 80%"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tvOwner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Người đăng: Minh Thư (K25)"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Thời gian: 1 giờ trước"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

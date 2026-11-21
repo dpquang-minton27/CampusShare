@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CampusShare / 06_Create_Post_Screen / Figma 16:140 (412x917 baseline).
+     Keeps the IDs used by CreatePostActivity and provides two extra thumbnail slots. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cs_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <!-- android:fitsSystemWindows="true" giúp tự động nằm bên dưới cái header trên cùng -->
+    <!-- 56dp white top bar, centered title and outlined back circle. -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/cs_white">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/post_bg_back_circle"
+            android:contentDescription="Quay lại"
+            android:padding="10dp"
+            android:src="@drawable/post_ic_back"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:text="ĐĂNG TIN MỚI"
+            android:textColor="@color/cs_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/cs_border" />
+    </FrameLayout>
+
+    <!-- Only the body scrolls; the bottom action stays fixed. -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="false"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp">
+
+            <!-- Figma 27:10: 380x208 photo upload card. -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="208dp"
+                app:cardBackgroundColor="@color/cs_white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="false"
+                app:strokeColor="@color/cs_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp">
+
+                    <FrameLayout
+                        android:id="@+id/layoutPhotoPicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:background="@drawable/post_bg_upload"
+                        android:clickable="true"
+                        android:contentDescription="Chọn tối đa ba ảnh món đồ"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:id="@+id/imgPreview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/post_bg_upload"
+                            android:clipToOutline="true"
+                            android:contentDescription="Ảnh chính của món đồ"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/layoutPhotoPlaceholder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <FrameLayout
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@drawable/post_bg_camera_circle">
+
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="Biểu tượng máy ảnh"
+                                    android:src="@drawable/post_ic_camera" />
+                            </FrameLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:gravity="center"
+                                android:includeFontPadding="false"
+                                android:text="Thêm ảnh món đồ (Tối đa 3 ảnh)"
+                                android:textColor="@color/cs_primary"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <!-- Main upload box holds the first picture; these represent pictures 2-3. -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgPostThumb1"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:background="@drawable/post_bg_thumbnail"
+                            android:clipToOutline="true"
+                            android:contentDescription="Ảnh bổ sung thứ hai"
+                            android:scaleType="centerCrop" />
+
+                        <ImageView
+                            android:id="@+id/imgPostThumb2"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/post_bg_thumbnail"
+                            android:clipToOutline="true"
+                            android:contentDescription="Ảnh bổ sung thứ ba"
+                            android:scaleType="centerCrop" />
+                    </LinearLayout>
+
+                    <!-- Kept for source compatibility; the sample-image shortcut is absent in Figma. -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnUseSamplePhoto"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Figma 27:18: card with vertical labels and filled, outlined fields. -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/cs_white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="false"
+                app:strokeColor="@color/cs_border"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:includeFontPadding="false"
+                        android:text="Tên món đồ / Tiêu đề"
+                        android:textColor="@color/cs_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/post_bg_input">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_marginStart="14dp"
+                            android:contentDescription="Nhãn món đồ"
+                            android:src="@drawable/post_ic_tag" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:hint="Ví dụ: Bàn học gấp gọn, Sách Giải tích 1"
+                            android:inputType="textCapSentences"
+                            android:maxLength="100"
+                            android:paddingStart="42dp"
+                            android:paddingEnd="14dp"
+                            android:singleLine="true"
+                            android:textColor="@color/cs_text_primary"
+                            android:textColorHint="@color/cs_text_secondary"
+                            android:textSize="14sp" />
+                    </FrameLayout>
+
+                    <!-- Figma category: 4 short pills in the same row at 412px. -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="10dp"
+                        android:includeFontPadding="false"
+                        android:text="Danh mục đồ dùng"
+                        android:textColor="@color/cs_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupPostCat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:chipSpacingHorizontal="8dp"
+                        app:chipSpacingVertical="0dp"
+                        app:selectionRequired="true"
+                        app:singleLine="false"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipPostBooks"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="31dp"
+                            android:minWidth="82dp"
+                            android:checked="true"
+                            android:text="Giáo trình"
+                            android:textColor="@color/post_category_text"
+                            android:textSize="12sp"
+                            app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/post_category_background"
+                            app:chipCornerRadius="50dp"
+                            app:chipEndPadding="0dp"
+                            app:chipMinHeight="31dp"
+                            app:chipStartPadding="0dp"
+                            app:chipStrokeWidth="0dp"
+                            app:ensureMinTouchTargetSize="false"
+                            app:textEndPadding="12dp"
+                            app:textStartPadding="12dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipPostTech"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="31dp"
+                            android:minWidth="68dp"
+                            android:text="Thiết bị"
+                            android:textColor="@color/post_category_text"
+                            android:textSize="12sp"
+                            app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/post_category_background"
+                            app:chipCornerRadius="50dp"
+                            app:chipEndPadding="0dp"
+                            app:chipMinHeight="31dp"
+                            app:chipStartPadding="0dp"
+                            app:chipStrokeWidth="0dp"
+                            app:ensureMinTouchTargetSize="false"
+                            app:textEndPadding="12dp"
+                            app:textStartPadding="12dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipPostDorm"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="31dp"
+                            android:minWidth="68dp"
+                            android:text="Đồ KTX"
+                            android:textColor="@color/post_category_text"
+                            android:textSize="12sp"
+                            app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/post_category_background"
+                            app:chipCornerRadius="50dp"
+                            app:chipEndPadding="0dp"
+                            app:chipMinHeight="31dp"
+                            app:chipStartPadding="0dp"
+                            app:chipStrokeWidth="0dp"
+                            app:ensureMinTouchTargetSize="false"
+                            app:textEndPadding="12dp"
+                            app:textStartPadding="12dp" />
+
+                        <!-- Keep the old ID and categoryId=study for compatible local filtering. -->
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipPostStudy"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="31dp"
+                            android:minWidth="89dp"
+                            android:text="Đồ cá nhân"
+                            android:textColor="@color/post_category_text"
+                            android:textSize="12sp"
+                            app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/post_category_background"
+                            app:chipCornerRadius="50dp"
+                            app:chipEndPadding="0dp"
+                            app:chipMinHeight="31dp"
+                            app:chipStartPadding="0dp"
+                            app:chipStrokeWidth="0dp"
+                            app:ensureMinTouchTargetSize="false"
+                            app:textEndPadding="12dp"
+                            app:textStartPadding="12dp" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="10dp"
+                        android:includeFontPadding="false"
+                        android:text="Hình thức chia sẻ"
+                        android:textColor="@color/cs_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <!-- RadioButtons support the 2-line giveaway label; Material Chip does not. -->
+                    <RadioGroup
+                        android:id="@+id/chipGroupPostType"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/chipPostGiveAway"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/post_bg_share_choice"
+                            android:button="@null"
+                            android:checked="true"
+                            android:drawableStart="@drawable/post_ic_green_check_badge"
+                            android:drawablePadding="8dp"
+                            android:gravity="center_vertical"
+                            android:includeFontPadding="false"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="Cho tặng 0đ\n(GIVE_AWAY)"
+                            android:textColor="@color/post_share_text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+                            android:id="@+id/chipPostExchange"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/post_bg_share_choice"
+                            android:button="@null"
+                            android:gravity="center_vertical"
+                            android:includeFontPadding="false"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:singleLine="true"
+                            android:text="Trao đổi đồ (EXCHANGE)"
+                            android:textColor="@color/post_share_text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </RadioGroup>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilExchangeNote"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Bạn muốn đổi lấy món đồ gì? *"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtExchangeNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:maxLength="200" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvPostCondition"
+                            android:layout_width="0dp"
+                            android:layout_height="16dp"
+                            android:layout_weight="1"
+                            android:includeFontPadding="false"
+                            android:text="Tình trạng đồ dùng (%)"
+                            android:textColor="@color/cs_primary"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvPostConditionValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:includeFontPadding="false"
+                            android:text="Mới 85%"
+                            android:textColor="@color/cs_primary"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="10dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/sliderPostCondition"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center_vertical"
+                            android:value="85.0"
+                            android:valueFrom="10.0"
+                            android:valueTo="100.0"
+                            android:stepSize="1.0"
+                            app:haloRadius="0dp"
+                            app:labelBehavior="gone"
+                            app:thumbWidth="24dp"
+                            app:thumbHeight="24dp"
+                            app:thumbTrackGapSize="0dp"
+                            app:thumbColor="@color/cs_primary"
+                            app:thumbRadius="12dp"
+                            app:tickVisible="false"
+                            app:trackColorActive="@color/cs_primary"
+                            app:trackColorInactive="@color/cs_border"
+                            app:trackHeight="6dp" />
+                    </FrameLayout>
+
+                    <!-- Description precedes the pickup location in Figma. -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="10dp"
+                        android:includeFontPadding="false"
+                        android:text="Mô tả chi tiết món đồ"
+                        android:textColor="@color/cs_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="88dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/post_bg_input">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="top|start"
+                            android:hint="Mô tả chi tiết món đồ, lý do tặng/đổi, tình trạng thực tế..."
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:padding="14dp"
+                            android:textColor="@color/cs_text_primary"
+                            android:textColorHint="@color/cs_text_secondary"
+                            android:textSize="14sp" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="10dp"
+                        android:includeFontPadding="false"
+                        android:text="Địa điểm nhận đồ"
+                        android:textColor="@color/cs_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/post_bg_input">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="start|center_vertical"
+                            android:layout_marginStart="14dp"
+                            android:contentDescription="Vị trí nhận đồ"
+                            android:src="@drawable/post_ic_pin" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:hint="Ví dụ: KTX Khu A, Thư viện, Cổng trường"
+                            android:inputType="textCapSentences"
+                            android:paddingStart="42dp"
+                            android:paddingEnd="14dp"
+                            android:singleLine="true"
+                            android:textColor="@color/cs_text_primary"
+                            android:textColorHint="@color/cs_text_secondary"
+                            android:textSize="14sp" />
+                    </FrameLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Figma bottom-sticky-action: height 84dp, 52dp round button. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@color/cs_white"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="20dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmitPost"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/cs_primary"
+            android:text="ĐĂNG TIN NGAY"
+            android:textAllCaps="false"
+            android:textColor="@color/cs_white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="26dp"
+            android:insetBottom="0dp"
+            android:insetTop="0dp" />
+    </LinearLayout>
+</LinearLayout>

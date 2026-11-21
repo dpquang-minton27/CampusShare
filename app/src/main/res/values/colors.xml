@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="campus_primary">#176B5B</color>
-    <color name="campus_background">#F3F8F5</color>
-    <color name="campus_surface">#FFFFFF</color>
-    <color name="campus_text">#17332D</color>
+    <color name="primary_blue">#0D47A1</color>
+    <color name="primary_blue_light">#E3F2FD</color>
+
+    <color name="bg_screen">#F8FAFC</color>
+    <color name="white">#FFFFFF</color>
+    <color name="border_gray">#E2E8F0</color>
+
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+
+    <color name="status_green">#2E7D32</color>
+    <color name="status_green_bg">#E8F5E9</color>
+    <color name="status_orange">#EF6C00</color>
+    <color name="status_orange_bg">#FFF3E0</color>
+    <color name="status_red">#C62828</color>
+    <color name="status_red_bg">#FFEBEE</color>
+
+    <!-- Bảng màu chuẩn Figma CampusShare -->
+    <color name="cs_primary">#0D47A1</color>
+    <color name="cs_primary_dark">#082E6B</color>
+    <color name="cs_primary_light">#E3F2FD</color>
+    <color name="cs_bg">#F8FAFC</color>
+    <color name="cs_white">#FFFFFF</color>
+    <color name="cs_border">#E2E8F0</color>
+    <color name="cs_text_primary">#0F172A</color>
+    <color name="cs_text_secondary">#64748B</color>
+    <color name="cs_green">#2E7D32</color>
+    <color name="cs_green_bg">#E8F5E9</color>
+    <color name="cs_red">#C62828</color>
 </resources>

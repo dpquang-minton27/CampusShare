@@ -1,28 +1,59 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
 }
 
 android {
-    namespace = "com.campusshare.app"
-    compileSdk = 36
+    namespace = "com.example.baocaocuoiky"
+    compileSdk {
+        version = release(37)
+    }
 
     defaultConfig {
-        applicationId = "com.campusshare.app"
-        minSdk = 26
-        targetSdk = 35
+        applicationId = "com.example.baocaocuoiky"
+        minSdk = 24
+        targetSdk = 37
         versionCode = 1
-        versionName = "0.1.0"
+        versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildTypes {
+        release {
+            optimization {
+                enable = true
+                packageScope = setOf("androidx.**", "kotlin.**", "kotlinx.**")
+            }
+        }
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    buildFeatures {
+        viewBinding = true
     }
 }
 
-// BC1 chỉ dùng Android SDK. Thêm Firebase/Room và thư viện UI sau khi chốt data contract.
+dependencies {
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.material)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+
+    // Thư viện tải ảnh mượt mà
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // Bổ sung thư viện UI chuẩn Material Design 3 & CardView
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.cardview:cardview:1.0.0")
+}

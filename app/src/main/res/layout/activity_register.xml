@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/login_bg_screen"
+    android:fillViewport="true"
+    android:clipToPadding="false"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="30dp">
+        <!-- Header Logo & Tên Trường -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardLogo"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            app:cardBackgroundColor="@color/login_white"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="false">
+            <ImageView
+                android:id="@+id/imgSchoolLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/login_logo_content_description"
+                android:scaleType="fitCenter"
+                android:src="@drawable/logo_ute" />
+        </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="@string/login_school_name"
+                android:textColor="@color/login_blue_80"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:textAlignment="center"
+                android:maxLines="2"
+                android:fontFamily="sans-serif-medium" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/login_product_name"
+                android:textColor="@color/login_blue"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:textAlignment="center"
+                android:fontFamily="sans-serif-black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/login_slogan"
+                android:textColor="@color/login_blue_80"
+                android:textSize="16sp"
+                android:textStyle="italic"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:textAlignment="center"
+                android:fontFamily="sans-serif-medium" />
+        </LinearLayout>
+        <!-- Thẻ trắng chứa Form Đăng Ký -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/login_white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp"
+            app:strokeWidth="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Đăng Ký Tài Khoản"
+                    android:textColor="@color/login_blue"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:includeFontPadding="false" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Vui lòng nhập thông tin để tạo tài khoản."
+                    android:textColor="@color/login_blue_60"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif"
+                    android:includeFontPadding="false" />
+                <!-- 1. Họ và tên sinh viên -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Họ và tên sinh viên"
+                    app:boxBackgroundColor="#F8FAFC"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="@color/login_border"
+                    app:startIconDrawable="@drawable/ic_cat_personal"
+                    app:hintTextColor="@color/login_blue_60"
+                    app:startIconTint="@color/login_blue_60">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtFullName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/login_blue"
+                        android:textColorHint="@color/login_blue_50"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- 2. Mã số sinh viên (MSSV) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Mã số sinh viên (MSSV)"
+                    app:boxBackgroundColor="#F8FAFC"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="@color/login_border"
+                    app:startIconDrawable="@drawable/ic_cat_tech"
+                    app:hintTextColor="@color/login_blue_60"
+                    app:startIconTint="@color/login_blue_60">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtStudentId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/login_blue"
+                        android:textColorHint="@color/login_blue_50"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- 3. Email sinh viên -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Email sinh viên (...@sv.ute.udn.vn)"
+                    app:boxBackgroundColor="#F8FAFC"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="@color/login_border"
+                    app:startIconDrawable="@drawable/ic_menu_sent_req"
+                    app:hintTextColor="@color/login_blue_60"
+                    app:startIconTint="@color/login_blue_60">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/login_blue"
+                        android:textColorHint="@color/login_blue_50"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- 4. Số điện thoại & Zalo liên hệ -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Số điện thoại &amp; Zalo liên hệ"
+                    app:boxBackgroundColor="#F8FAFC"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="@color/login_border"
+                    app:startIconDrawable="@android:drawable/ic_menu_call"
+                    app:hintTextColor="@color/login_blue_60"
+                    app:startIconTint="@color/login_blue_60">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/login_blue"
+                        android:textColorHint="@color/login_blue_50"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- 5. Mật khẩu -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Mật khẩu"
+                    app:boxBackgroundColor="#F8FAFC"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="@color/login_border"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+                    app:hintTextColor="@color/login_blue_60"
+                    app:startIconTint="@color/login_blue_60"
+                    app:endIconTint="@color/login_blue_60">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/login_blue"
+                        android:textColorHint="@color/login_blue_50"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- 6. Xác nhận mật khẩu -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Xác nhận mật khẩu"
+                    app:boxBackgroundColor="#F8FAFC"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="@color/login_border"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+                    app:hintTextColor="@color/login_blue_60"
+                    app:startIconTint="@color/login_blue_60"
+                    app:endIconTint="@color/login_blue_60">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/login_blue"
+                        android:textColorHint="@color/login_blue_50"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- Nút ĐĂNG KÝ TÀI KHOẢN -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/login_blue"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="ĐĂNG KÝ TÀI KHOẢN"
+                    android:textColor="@color/login_white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="26dp"
+                    android:fontFamily="sans-serif"
+                    android:stateListAnimator="@null"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!-- Dòng chuyển về Đăng nhập dưới cùng -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã có tài khoản? "
+                android:textColor="@color/login_blue_60"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/tvLoginNow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng nhập ngay"
+                android:textColor="@color/login_green"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif"
+                android:includeFontPadding="false"
+                android:layout_marginStart="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

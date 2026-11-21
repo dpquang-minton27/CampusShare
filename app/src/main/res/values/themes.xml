@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.CampusShare" parent="@android:style/Theme.Material.Light.NoActionBar">
-        <item name="android:colorAccent">@color/campus_primary</item>
-        <item name="android:statusBarColor">@color/campus_primary</item>
-        <item name="android:navigationBarColor">@color/campus_surface</item>
-        <item name="android:windowLightStatusBar">false</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.BaoCaoCuoiKy" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_blue</item>
+    </style>
+
+    <style name="Theme.BaoCaoCuoiKy" parent="Base.Theme.BaoCaoCuoiKy" />
+
+    <style name="Theme.CampusShare" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cs_primary</item>
+        <item name="android:statusBarColor">@color/cs_primary</item>
     </style>
 </resources>

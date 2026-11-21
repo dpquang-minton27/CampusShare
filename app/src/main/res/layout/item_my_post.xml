@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/border_gray"
+    app:strokeWidth="1dp">
+
+    <!-- All IDs are preserved for ItemMyPostBinding + MyPostAdapter. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Figma card header: 356 x 88, image 88 x 88, 12dp gap. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                app:cardBackgroundColor="@color/border_gray"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/imgPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/border_gray"
+                    android:contentDescription="Ảnh món đồ"
+                    android:scaleType="centerCrop"
+                    tools:src="@android:drawable/ic_menu_gallery" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="Sách Giải Tích 1"
+                        android:textColor="@color/primary_blue"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTypeBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_my_posts_badge_pill"
+                        android:gravity="center"
+                        android:minHeight="21dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="0đ GIVE_AWAY"
+                        android:textColor="@color/status_green"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutMetaRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvStatusBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_my_posts_badge_pill"
+                        android:gravity="center"
+                        android:minHeight="21dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:text="AVAILABLE"
+                        android:textColor="@color/status_green"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCreatedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Ngày đăng: Hôm nay"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- x=12 y=112, height=27 in the Figma card. -->
+        <LinearLayout
+            android:id="@+id/layoutRequestCountPill"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_my_posts_badge_pill"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:contentDescription="Số yêu cầu nhận đồ"
+                android:src="@drawable/ic_my_posts_users"
+                app:tint="@color/status_green" />
+
+            <TextView
+                android:id="@+id/tvRequestSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="3 yêu cầu nhận đồ"
+                android:textColor="@color/status_green"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvCompletedRecipient"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Đã trao cho bạn Nguyễn Văn A"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <!-- 208dp + 8dp + 92dp + 8dp + 40dp on 412px Figma artboard. -->
+        <LinearLayout
+            android:id="@+id/layoutActiveButtons"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewRequests"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="2.26"
+                android:backgroundTint="@color/primary_blue"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="Xem yêu cầu (3)"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEditPost"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="Sửa tin"
+                android:textAllCaps="false"
+                android:textColor="@color/primary_blue"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp"
+                app:strokeColor="@color/border_gray"
+                app:strokeWidth="1dp" />
+
+            <ImageButton
+                android:id="@+id/btnDeletePost"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_circle_white_border"
+                android:contentDescription="Xóa tin"
+                android:padding="11dp"
+                android:src="@drawable/ic_my_posts_trash"
+                app:tint="@color/status_red" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnFinishedBadge"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_my_posts_badge_pill"
+            android:backgroundTint="#EEF2F6"
+            android:gravity="center"
+            android:text="Đã kết thúc"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

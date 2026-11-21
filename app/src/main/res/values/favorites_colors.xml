@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fav_subtitle_muted">#A19595</color>
+    <color name="fav_type_bg">#DFDFDF</color>
+    <color name="fav_type_text">#7D977E</color>
+    <color name="fav_price_bg">#98B8EF</color>
+</resources>
