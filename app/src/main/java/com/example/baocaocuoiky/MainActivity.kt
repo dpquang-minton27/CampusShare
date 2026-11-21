@@ -52,6 +52,10 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    fun openHomeTab() {
+        binding.bottomNavigation.selectedItemId = R.id.nav_home
+    }
+
     fun openSearchTab() {
         binding.bottomNavigation.selectedItemId = R.id.nav_search
     }

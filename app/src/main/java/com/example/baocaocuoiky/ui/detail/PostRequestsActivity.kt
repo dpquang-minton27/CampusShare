@@ -5,8 +5,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,6 +18,7 @@ import com.example.baocaocuoiky.data.model.PostType
 import com.example.baocaocuoiky.data.model.RequestStatus
 import com.example.baocaocuoiky.databinding.ActivityPostRequestsBinding
 import com.example.baocaocuoiky.databinding.DialogAcceptSuccessBinding
+import com.example.baocaocuoiky.databinding.DialogRejectRequestBinding
 
 class PostRequestsActivity : AppCompatActivity() {
 
@@ -86,23 +85,15 @@ class PostRequestsActivity : AppCompatActivity() {
     }
 
     private fun handleReject(req: ExchangeRequest) {
-        val container = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(48, 16, 48, 8)
-        }
-        val edtReason = EditText(this).apply {
-            hint = "Nhập lý do từ chối (VD: Đã hẹn bạn khác...)"
-            minLines = 2
-        }
-        container.addView(edtReason)
+        val dialogBinding = DialogRejectRequestBinding.inflate(layoutInflater)
 
         AlertDialog.Builder(this)
             .setTitle("Từ chối yêu cầu")
             .setMessage("Nhập lý do từ chối gửi tới ${req.requesterName}:")
-            .setView(container)
+            .setView(dialogBinding.root)
             .setNegativeButton("Hủy", null)
             .setPositiveButton("Xác nhận từ chối") { _, _ ->
-                val reason = edtReason.text.toString().trim()
+                val reason = dialogBinding.edtReason.text.toString().trim()
                 if (reason.isBlank()) {
                     Toast.makeText(this, "Vui lòng nhập lý do từ chối!", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton

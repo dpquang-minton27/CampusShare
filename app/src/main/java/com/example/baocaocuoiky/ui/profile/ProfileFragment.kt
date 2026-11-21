@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.example.baocaocuoiky.MainActivity
 import com.example.baocaocuoiky.R
 import com.example.baocaocuoiky.data.local.ProfileLocalStore
 import com.example.baocaocuoiky.data.local.SessionManager
@@ -16,8 +18,6 @@ import com.example.baocaocuoiky.databinding.FragmentProfileBinding
 import com.example.baocaocuoiky.ui.auth.LoginActivity
 import com.example.baocaocuoiky.ui.detail.RequestsActivity
 import com.example.baocaocuoiky.ui.home.MyPostsActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.bumptech.glide.Glide
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -50,9 +50,7 @@ class ProfileFragment : Fragment() {
         // Profile is a bottom navigation tab, not a pushed screen.
         // Back icon returns to Home instead of accidentally closing MainActivity.
         binding.btnBack.setOnClickListener {
-            requireActivity()
-                .findViewById<BottomNavigationView>(R.id.bottomNavigation)
-                ?.selectedItemId = R.id.nav_home
+            (activity as? MainActivity)?.openHomeTab()
         }
         binding.layoutAvatar.setOnClickListener {
             pickAvatarLauncher.launch(arrayOf("image/*"))
