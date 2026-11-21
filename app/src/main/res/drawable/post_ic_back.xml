@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Exact Figma 27:65 SVG path, converted to VectorDrawable. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp" android:height="20dp"
+    android:viewportWidth="20" android:viewportHeight="20">
+    <path android:pathData="M10,4.166 L4.166,10 L10,15.834 M4.166,10 H15.834"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/cs_primary" android:strokeWidth="2"
+        android:strokeLineCap="round" />
+</vector>

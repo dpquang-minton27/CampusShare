@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chip styles are scoped to Search so other screens remain unchanged. -->
+    <style name="Widget.CampusShare.SearchChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipMinHeight">26dp</item>
+        <item name="chipCornerRadius">20dp</item>
+        <item name="chipStartPadding">8dp</item>
+        <item name="chipEndPadding">8dp</item>
+        <item name="textStartPadding">0dp</item>
+        <item name="textEndPadding">0dp</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipIconVisible">false</item>
+        <item name="closeIconVisible">false</item>
+        <item name="ensureMinTouchTargetSize">false</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:minHeight">26dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+    </style>
+
+    <style name="Widget.CampusShare.SearchChip.Primary" parent="Widget.CampusShare.SearchChip">
+        <item name="chipBackgroundColor">@color/search_primary_chip_bg</item>
+        <item name="android:textColor">@color/search_primary_chip_text</item>
+    </style>
+
+    <style name="Widget.CampusShare.SearchChip.Give" parent="Widget.CampusShare.SearchChip">
+        <item name="chipBackgroundColor">@color/search_give_chip_bg</item>
+        <item name="android:textColor">@color/search_give_chip_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.CampusShare.SearchChip.Exchange" parent="Widget.CampusShare.SearchChip">
+        <item name="chipBackgroundColor">@color/search_exchange_chip_bg</item>
+        <item name="android:textColor">@color/search_exchange_chip_text</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipStrokeColor">@color/search_exchange_chip_stroke</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.CampusShare.SearchChip.Status" parent="Widget.CampusShare.SearchChip.Primary">
+        <item name="chipMinHeight">36dp</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Outer vector from Figma 27:74; inner location dot based on screenshot. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp" android:height="18dp"
+    android:viewportWidth="18" android:viewportHeight="18">
+    <path android:pathData="M9.45072,16.3501 C10.8456,15.1455 14.9994,11.2452 14.9994,7.50007 C14.9994,5.90862 14.3673,4.38236 13.2422,3.25703 C12.1171,2.13171 10.5912,1.49951 9.00001,1.49951 C7.40887,1.49951 5.8829,2.13171 4.75779,3.25703 C3.63269,4.38236 3.00061,5.90862 3.00061,7.50007 C3.00061,11.2452 7.15445,15.1455 8.54931,16.3501 C8.67925,16.4479 8.83743,16.5007 9.00001,16.5007 C9.16259,16.5007 9.32077,16.4479 9.45072,16.3501 Z"
+        android:fillColor="@android:color/transparent" android:strokeColor="@color/cs_primary"
+        android:strokeWidth="2" android:strokeLineCap="round" />
+    <path android:pathData="M9,5.5 A2,2 0,1 1,9 9.5 A2,2 0,1 1,9 5.5"
+        android:fillColor="@android:color/transparent" android:strokeColor="@color/cs_primary"
+        android:strokeWidth="1.6" />
+</vector>

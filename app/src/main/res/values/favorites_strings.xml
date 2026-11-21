@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fav_heading">DANH SÁCH YÊU THÍCH</string>
+    <string name="fav_back">Quay lại Trang chủ</string>
+    <string name="fav_subtitle">Lưu trữ các món đồ bạn quan tâm</string>
+    <string name="fav_empty">Bạn chưa lưu món đồ yêu thích nào.\nHãy chạm vào biểu tượng trái tim ở trang chi tiết để lưu món đồ.</string>
+    <string name="fav_image_description">Ảnh món đồ</string>
+    <string name="fav_zero_price">0đ</string>
+    <string name="fav_request">Đăng ký nhận</string>
+    <string name="fav_my_post">Tin của bạn</string>
+    <string name="fav_requested">Đã đăng ký</string>
+    <string name="fav_unavailable">Không khả dụng</string>
+    <string name="fav_sign_in">Đăng nhập</string>
+    <string name="fav_unknown_owner">Chưa cập nhật</string>
+    <string name="fav_owner_format">Người đăng : %1$s</string>
+    <string name="fav_condition_format">Tình Trạng : %1$d%%</string>
+</resources>

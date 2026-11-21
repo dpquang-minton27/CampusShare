@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Mapped to Figma: home / search / heart / user. Keep nav_* IDs unchanged. -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/campus_nav_home"
+        android:title="Trang chủ" />
+    <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/campus_nav_search"
+        android:title="Tìm kiếm" />
+    <item
+        android:id="@+id/nav_favorites"
+        android:icon="@drawable/campus_nav_heart"
+        android:title="Yêu thích" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/campus_nav_user"
+        android:title="Cá nhân" />
+</menu>

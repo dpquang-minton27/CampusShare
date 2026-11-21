@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Figma 27:71 camera outline; the camera lens is a separate visible circle. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+    <path android:pathData="M15.022,4.28314 C14.7121,4.09831 14.358,4.00073 13.9972,4.00073 H10.0038 C9.6434,4.00071 9.28964,4.09808 8.97998,4.28254 C8.67033,4.467 8.41628,4.73169 8.24471,5.04863 L7.75567,5.95254 C7.58409,6.26948 7.33005,6.53417 7.02039,6.71863 C6.71073,6.90308 6.35698,7.00045 5.99653,7.00043 H3.99937 C3.46889,7.00043 2.96014,7.21112 2.58504,7.58616 C2.20994,7.9612 1.99921,8.46985 1.99921,9.00023 V17.9993 C1.99921,18.5297 2.20994,19.0384 2.58504,19.4134 C2.96014,19.7884 3.46889,19.9991 3.99937,19.9991 H20.0006 C20.5311,19.9991 21.0399,19.7884 21.415,19.4134 C21.7901,19.0384 22.0008,18.5297 22.0008,17.9993 V9.00023 C22.0008,8.46985 21.7901,7.9612 21.415,7.58616 C21.0399,7.21112 20.5311,7.00043 20.0006,7.00043 H18.0035 C17.6427,7.00044 17.2886,6.90285 16.9787,6.71802 C16.6688,6.53319 16.4147,6.268 16.2433,5.95054 L15.7573,5.05063 C15.5859,4.73317 15.3318,4.46797 15.022,4.28314 Z"
+        android:fillColor="@android:color/transparent" android:strokeColor="@color/cs_primary"
+        android:strokeWidth="2" android:strokeLineCap="round" />
+    <path android:pathData="M12,10 A3,3 0,1 1,12 16 A3,3 0,1 1,12 10"
+        android:fillColor="@android:color/transparent" android:strokeColor="@color/cs_primary"
+        android:strokeWidth="2" android:strokeLineCap="round" />
+</vector>

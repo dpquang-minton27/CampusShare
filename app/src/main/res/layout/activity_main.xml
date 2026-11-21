@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_screen">
+
+    <!-- Do not change fragmentContainer: MainActivity and the four Fragment routes use it. -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation" />
+
+    <!-- 84dp white bar; exact outline icons, inactive opacity and active capsule from Figma. -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
+        android:background="@drawable/campus_nav_background"
+        app:backgroundTint="@null"
+        app:elevation="0dp"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemIconSize="24dp"
+        app:itemActiveIndicatorStyle="@style/CampusShareBottomNavIndicator"
+        app:activeIndicatorLabelPadding="4dp"
+        app:itemPaddingTop="6dp"
+        app:itemPaddingBottom="6dp"
+        app:itemIconTint="@color/campus_nav_tint"
+        app:itemTextColor="@color/campus_nav_tint"
+        app:itemTextAppearanceActive="@style/CampusShareBottomNavLabelActive"
+        app:itemTextAppearanceInactive="@style/CampusShareBottomNavLabelInactive"
+        app:itemRippleColor="@color/campus_nav_ripple"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>

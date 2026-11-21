@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Active icon capsule: 48x28dp, radius 14dp from Figma. -->
+    <style name="CampusShareBottomNavIndicator">
+        <item name="android:width">48dp</item>
+        <item name="android:height">28dp</item>
+        <item name="android:color">@color/campus_nav_indicator</item>
+        <item name="shapeAppearance">@style/CampusShareBottomNavIndicatorShape</item>
+    </style>
+
+    <style name="CampusShareBottomNavIndicatorShape"
+        parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="CampusShareBottomNavLabelInactive"
+        parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans</item>
+    </style>
+
+    <style name="CampusShareBottomNavLabelActive"
+        parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans</item>
+    </style>
+</resources>
